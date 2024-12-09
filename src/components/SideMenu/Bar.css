@@ -1,0 +1,9 @@
+.bar-buttons {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.apply-button {
+  position: relative;
+  z-index: 900;
+}

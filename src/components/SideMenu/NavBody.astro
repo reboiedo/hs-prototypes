@@ -1,0 +1,200 @@
+---
+import { Icon } from 'astro-icon/components';
+import { navigationData } from './constants/navigationData';
+import Category from './Category.astro';
+import ButtonMenu from './ButtonMenu.astro';
+---
+
+<nav 
+  class="nav-content" 
+  id="side-navigation"
+>
+  <div class="nav-header">
+    <div class="logo-container">
+      <Icon name="logo--white" class="logo-nav" />
+    </div>
+    <div class="header-buttons">
+      <button class="apply-button">Apply</button>
+      <ButtonMenu />
+    </div>
+  </div>
+
+  <div class="nav-content-primary">
+    {navigationData.map((category, index) => (
+      <Category 
+        category={category}
+        isOpen={false}
+        isMobile={true}
+      />
+    ))}
+  </div>
+  <div class="nav-content-secondary">
+    <div class="nav-secondary-top body-md">
+      <a href="/contact" class="nav-secondary-link">Apply Now</a>
+      <a href="/contact" class="nav-secondary-link">Book a Visit</a>
+      <a href="/contact" class="nav-secondary-link">Contact Us</a>
+      <a href="/contact" class="nav-secondary-link extra-padding">Login</a>
+      <a href="/contact" class="nav-secondary-link">Schedule</a>
+    </div>
+
+    <div class="nav-secondary-bottom">
+      <span class="headline-sm">Follow us</span>
+      <div class="social-icons">
+        <a href=""><Icon name="mdi:facebook" /></a>
+        <a href=""><Icon name="mdi:instagram" /></a>
+        <a href=""><Icon name="mdi:linkedin" /></a>
+        <a href=""><Icon name="mdi:youtube" /></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  :root {
+    --banner-height: 48px;
+    --header-height: 80px;
+  }
+
+  .nav-content {
+    position: fixed;
+    top: var(--banner-height);
+    bottom: 0;
+    right: 0;
+    background-color: var(--color-purple-800);
+    width: 100%;
+    max-width: 1024px;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - var(--banner-height));
+    visibility: hidden;
+    z-index: 1000;
+    overflow: scroll;
+  }
+
+  .nav-header {
+    height: var(--header-height);
+    min-height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: var(--space-s-m);
+    border-bottom: 1px solid var(--color-purple-700);
+  }
+
+  .header-buttons {
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  .nav-content-primary {
+    flex: 1;
+    padding-bottom: 2rem;
+  }
+
+  .nav-content-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .nav-secondary-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    padding-inline: var(--space-s-m);
+  }
+
+  .nav-secondary-bottom {
+    color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--space-m);
+    gap: 1rem;
+    border-top: 1px solid var(--color-purple-700);
+  }
+
+  .nav-secondary-bottom span {
+    display: none;
+  }
+
+  .social-icons {
+    font-size: var(--font-size-xl);
+    color: var(--color-white);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .social-icons a {
+    color: var(--color-purple-300);
+    text-decoration: none;
+  }
+
+  .nav-secondary-link {
+    color: var(--color-white);
+    text-decoration: none;
+  }
+
+  @media (min-width: 768px) {
+    .nav-content {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      grid-template-rows: auto 1fr;
+      grid-template-areas: 
+        "nav nav"
+        "secondary primary"
+        "secondary primary";
+      gap: 2rem;
+      grid-auto-flow: dense;
+    }
+
+    .nav-header {
+      grid-area: nav;
+      border-bottom: none;
+    }
+
+    .logo-nav {
+      opacity: 0;
+    }
+
+    .nav-content-primary {
+      padding-bottom: 0;
+      grid-area: primary;
+      overflow: scroll;
+      padding-inline: var(--space-s-m);
+    }
+
+    .nav-secondary-top {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding-top: var(--space-s);
+    }
+
+    .nav-content-secondary {
+      justify-content: space-between;
+      min-width: var(--space-5xl);
+    }
+
+    .nav-secondary-top .extra-padding {
+      margin-top: var(--space-2xl);
+    }
+
+    .nav-secondary-bottom {
+      padding-inline: var(--space-s-m);
+      border-top: none;
+    }
+
+    .nav-secondary-bottom span {
+      display: inline-block;
+    }
+
+    .social-icons {
+      font-size: var(--font-size-lg);
+      justify-content: space-between;
+    }
+  }
+</style> 

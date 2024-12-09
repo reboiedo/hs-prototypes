@@ -9,6 +9,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.0.3"
+    "@iconify-json/mdi": "^1.2.1",
+    "@iconify-json/tabler": "^1.2.10",
+    "astro": "^5.0.3",
+    "astro-icon": "^1.1.4",
+    "gsap": "^3.12.5"
+  },
+  "devDependencies": {
+    "@types/gsap": "^1.20.2"
   }
 }

@@ -1,0 +1,94 @@
+---
+import { Icon } from "astro-icon/components";
+import Banner from "./Banner.astro";
+import Bar from "./Bar.astro";
+import ButtonMenu from "./ButtonMenu.astro";
+import NavBody from "./NavBody.astro";
+
+
+---
+
+<div class="navigation-container">
+  <Banner title="Apply to join the team" linkText="Apply now" linkHref="/apply" />
+  <Bar />
+  <NavBody />
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  // DOM Elements
+  const navBody = document.getElementById('side-navigation') as HTMLElement;
+  const menuButtons = document.querySelectorAll('[data-menu-button]');
+  
+  // Animation Config
+  const config = {
+    duration: 0.6,
+    ease: 'power3.inOut',
+    clipPaths: {
+      hidden: "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)",
+      visible: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+    }
+  };
+
+  // Timelines
+  const tlOpen = gsap.timeline({ 
+    paused: true,
+    onStart: () => {
+      if (navBody) {
+        navBody.style.visibility = 'visible';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+  }).fromTo(navBody, {
+    clipPath: config.clipPaths.hidden
+  }, {
+    clipPath: config.clipPaths.visible,
+    duration: config.duration,
+    ease: config.ease
+  });
+
+  const tlClose = gsap.timeline({ 
+    paused: true,
+    onComplete: () => {
+      if (navBody) {
+        navBody.style.visibility = 'hidden';
+        document.body.style.overflow = '';
+      }
+    }
+  }).to(navBody, {
+    clipPath: config.clipPaths.hidden,
+    duration: config.duration,
+    ease: config.ease
+  });
+
+  // Event Handlers
+  function handleMenuClick() {
+    if (!navBody) return;
+
+    const isOpen = navBody.hasAttribute('open');
+    
+    if (!isOpen) {
+      navBody.setAttribute('open', '');
+      menuButtons.forEach(btn => btn.setAttribute('aria-expanded', 'true'));
+      gsap.set(navBody, { clipPath: config.clipPaths.hidden });
+      tlOpen.restart();
+    } else {
+      menuButtons.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
+      tlClose.restart();
+      navBody.removeAttribute('open');
+    }
+  }
+
+  // Event Listeners
+  menuButtons.forEach(button => {
+    button.addEventListener('click', handleMenuClick);
+  });
+</script>
+
+<style>
+  .navigation-container {
+    position: relative;
+  }
+
+</style>

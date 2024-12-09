@@ -1,0 +1,54 @@
+---
+import { Icon } from "astro-icon/components";
+import ButtonMenu from "./ButtonMenu.astro";
+
+
+---
+
+<div class="bar-wrapper">
+  <div class="logo-container">
+    <Icon name="logo--purple" class="logo" />
+  </div>
+  <div class="bar-buttons">
+    <button class="apply-button">Apply</button>
+    <ButtonMenu />
+  </div>
+</div>
+
+<style>
+  .bar-wrapper {
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: var(--space-s-m);
+    position: relative;
+    overflow: visible;
+    border-bottom: 1px solid var(--color-gray-200);
+    /* background-color: var(--color-purple-700); */
+    z-index: 900;
+  }
+
+  .logo {
+    z-index: 900;
+  }
+
+  .bar-buttons {
+    position: relative;
+    z-index: 1100;
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  .apply-button {
+    position: relative;
+    z-index: 900;
+  }
+
+  @media (min-width: 1024px) {
+    .logo {
+      z-index: 900;
+    }
+  }
+</style>

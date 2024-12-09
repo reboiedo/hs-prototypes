@@ -1,0 +1,22 @@
+---
+const { title, linkText, linkHref } = Astro.props;
+---
+
+<div class="banner">
+  <span class="banner-title">{title}</span>
+  <a href={linkHref} class="banner-link">{linkText}</a>
+</div>
+
+<style>
+  .banner {
+    position: relative;
+    z-index: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+    padding-inline: var(--space-s-m);
+    background: linear-gradient(to right, var(--color-purple-600), var(--color-purple-700));
+    height: 48px;
+  }
+</style>

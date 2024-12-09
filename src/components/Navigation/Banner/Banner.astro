@@ -1,0 +1,38 @@
+---
+interface Props {
+  text?: string;
+  link?: {
+    text: string;
+    href: string;
+  }
+}
+
+const { text, link } = Astro.props;
+
+// Don't render if no content provided
+if (!text) return null;
+---
+
+<div class="banner">
+  <p class="body-sm">
+    {text}
+    {link && <a href={link.href}>{link.text}</a>}
+  </p>
+</div>
+
+<style>
+  .banner {
+    height: 40px;
+    background: linear-gradient(
+      to right,
+      var(--color-purple-700),
+      var(--color-purple-600)
+    );
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 1003;
+  }
+</style>

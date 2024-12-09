@@ -1,0 +1,31 @@
+---
+import type { SubItem as SubItemType } from '../constants/navigationData';
+
+interface Props {
+  item: SubItemType;
+}
+
+const { item } = Astro.props;
+---
+<a href={item.href} class="subitem">
+  <h3>{item.title}</h3>
+</a>
+
+<style>
+  .subitem {
+    display: block;
+    padding: 1rem;
+    color: var(--color-white);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .subitem:hover {
+    background-color: var(--color-purple-800);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.125rem;
+  }
+</style> 

@@ -1,0 +1,115 @@
+---
+import { navigationData } from '../constants/navigationData';
+import Category from '../Category/Category.astro';
+---
+
+<nav 
+  class="navigation-layout" 
+  data-nav-layout
+  id="navigation-layout"
+  aria-hidden="true"
+>
+<div class="navigation-content">
+    {navigationData.map((category, index) => (
+      <Category 
+        category={category}
+        isOpen={false}
+        isMobile={false}
+      />
+    ))}
+  </div>
+</nav>
+
+<script>
+  const nav = document.querySelector('.navigation-layout');
+  const categories = nav?.querySelectorAll('.category');
+  let isMobile = window.innerWidth < 768;
+
+  function setupInitialState() {
+    if (!categories) return;
+    
+    // On mobile: all closed
+    // On desktop: first open, rest closed
+    categories.forEach((category, index) => {
+      const trigger = category.querySelector('.category-trigger');
+      const content = category.querySelector('.category-content');
+      const shouldBeOpen = !isMobile && index === 0;
+
+      trigger?.setAttribute('aria-expanded', shouldBeOpen.toString());
+      content?.setAttribute('aria-hidden', (!shouldBeOpen).toString());
+    });
+  }
+
+  function handleCategoryClick(e: Event) {
+    const trigger = e.target as HTMLElement;
+    if (!trigger.matches('.category-trigger')) return;
+
+    const category = trigger.closest('.category');
+    if (!category) return;
+
+    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+    const content = category.querySelector('.category-content');
+
+    // On desktop: close others when opening one
+    if (!isMobile && !isExpanded) {
+      categories?.forEach(cat => {
+        if (cat !== category) {
+          const catTrigger = cat.querySelector('.category-trigger');
+          const catContent = cat.querySelector('.category-content');
+          catTrigger?.setAttribute('aria-expanded', 'false');
+          catContent?.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }
+
+    // Toggle clicked category
+    trigger.setAttribute('aria-expanded', (!isExpanded).toString());
+    content?.setAttribute('aria-hidden', isExpanded.toString());
+  }
+
+  // Handle resize
+  function handleResize() {
+    const wasMobile = isMobile;
+    isMobile = window.innerWidth < 768;
+
+    // Only reset state if we're crossing the breakpoint
+    if (wasMobile !== isMobile) {
+      setupInitialState();
+    }
+  }
+
+  // Event listeners
+  nav?.addEventListener('click', handleCategoryClick);
+  window.addEventListener('resize', handleResize);
+
+  // Initial setup
+  setupInitialState();
+</script>
+
+<style>
+  .navigation-layout {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 100vh;
+    width: 100vw;
+    background: var(--color-purple-900);
+    opacity: 1;
+    visibility: hidden;
+    z-index: 1001;
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+  }
+
+  .logo-placeholder {
+    height: 80px;
+    background-color: var(--color-white);
+  }
+
+  .navigation-content {
+    max-width: var(--size-content-width);
+    margin: 0 auto;
+    padding: 6rem var(--space-s-m);
+  }
+</style>
