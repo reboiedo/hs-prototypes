@@ -6,7 +6,14 @@ import { Icon } from "astro-icon/components";
 
 <header class="nav-bar">
   <div class="nav-bar-wrapper">
-    <Icon name="logo--white" />
+    <Icon name="logo--white" class="nav-bar-logo" />
+    <div class="button-group headline-xs">
+      <button class="button-apply">Apply Now</button>
+      <button class="button-menu">
+        <span>Menu</span>
+        <Icon name="mdi:menu" />
+      </button>
+    </div>
   </div>
 </header>
 
@@ -20,6 +27,38 @@ import { Icon } from "astro-icon/components";
     z-index: 100;
   }
 
+  .button-group {
+    display: flex;
+    gap: var(--space-3xs);
+  }
+
+  .button-apply {
+    background-color: var(--color-green-500);
+    color: var(--color-white);
+    border-radius: 500px;
+    border: none;
+    font-size: var(--font-size-base);
+    height: var(--size-button-m);
+    padding: var(--space-2xs) var(--space-xs);
+    font-size: inherit;
+  }
+
+  .button-menu {
+    background-color: transparent;
+    color: var(--color-white);
+    border-radius: 500px;
+    border: 1px solid var(--color-purple-700);
+    padding: var(--space-2xs) var(--space-xs);
+    min-height: var(--size-button-m);
+    min-width: var(--size-button-m);
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-2xs);
+    align-items: center;
+    justify-content: center;
+    font-size: inherit;
+  }
+
   .nav-bar-wrapper {
     margin: 0 auto;
     height: 80px;
@@ -27,6 +66,10 @@ import { Icon } from "astro-icon/components";
     align-items: center;
     justify-content: space-between;
     max-width: 1824px;
+  }
+
+  .nav-bar-logo {
+    width: 100px;
   }
 
   @media (max-width: 810px) {

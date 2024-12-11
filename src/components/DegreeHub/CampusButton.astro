@@ -10,7 +10,7 @@ const { campus } = Astro.props;
 
 ---
 <button class="campus-button">
-  <span>{campus}</span>
+  <span class="headline-sm">{campus}</span>
   <Icon name="mdi:arrow-top-right" />
 </button>
 
@@ -21,8 +21,9 @@ const { campus } = Astro.props;
     align-items: center;
     gap: var(--space-2xs);
     flex-direction: columns;
-    font-size: var(--font-size-sm);
-    padding: var(--space-2xs) var(--space-xs);
+    font-size: inherit;
+    padding-inline: var(--space-xs);
+    height: var(--size-button-l);
     background-color: transparent;
     color: var(--color-white);
     border-radius: 200px;

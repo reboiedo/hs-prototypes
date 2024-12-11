@@ -52,6 +52,18 @@
   --color-purple-900: #312067;
   --color-purple-950: #1e1440;
 
+  --color-green-50: #ecfdf5;
+  --color-green-100: #d1fae5;
+  --color-green-200: #a7f3d0;
+  --color-green-300: #6ee7b7;
+  --color-green-400: #34d399;
+  --color-green-500: #10b981;
+  --color-green-600: #059669;
+  --color-green-700: #047857;
+  --color-green-800: #065f46;
+  --color-green-900: #064e3b;
+  --color-green-950: #022c22;
+
   --color-muted-700: hsl(from var(--color-purple-700) h calc(s * 0.9) l);
 
   --white-70: rgba(255, 255, 255, 0.7);
@@ -86,8 +98,12 @@
   --space-m-3xl: clamp(1.5rem, -0.32rem + 6.9333vw, 8rem);
   --space-gap: clamp(2.125rem, -13.0192rem + 20.1923vw, 10rem);
 
-  /* font sizes */
+  /* Heights */
+  --size-button-s: clamp(2rem, 1.8504rem + 0.5698vw, 2.5rem);
+  --size-button-m: clamp(2rem, 1.7009rem + 1.1396vw, 3rem);
+  --size-button-l: clamp(2.5rem, 2.2009rem + 1.1396vw, 3.5rem);
 
+  /* font sizes */
   --font-size-12: 0.75rem;
   --font-size-14: 0.875rem;
   --font-size-16: 1rem;

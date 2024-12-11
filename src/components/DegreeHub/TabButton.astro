@@ -20,14 +20,14 @@ const { type, isActive, displayName } = Astro.props;
 
 <style>
   .tab-button {
-    padding: var(--space-3xs) var(--space-2xs);
+    padding-inline: var(--space-2xs);
     border: none;
     background: none;
     color: var(--color-purple-300);
+    height: var(--size-button-medium);
     cursor: pointer;
     border-radius: 200px;
     transition: all 0.2s ease;
-    line-height: 1;
   }
 
   .tab-button[aria-pressed="true"] {
