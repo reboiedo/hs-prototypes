@@ -42,7 +42,7 @@ const { degree, campuses } = Astro.props;
   .degree-card p {
     color: var(--color-purple-200);
     margin-bottom: var(--space-xs);
-    text-wrap: balance;
+    max-width: 800px;
   }
 
   :global(.card-wrapper:last-child) .degree-card {
@@ -89,7 +89,7 @@ const { degree, campuses } = Astro.props;
 
     .degree-card p {
       font-size: var(--font-size-sm);
-      text-wrap: none;
+      text-wrap: pretty;
     }
     
 

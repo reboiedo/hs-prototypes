@@ -6,7 +6,7 @@ import { Icon } from "astro-icon/components";
 
 <header class="nav-bar">
   <div class="nav-bar-wrapper">
-    <Icon name="logo--white" class="nav-bar-logo" />
+    <Icon name="logo--white" class="headline-sm nav-bar-logo" />
     <div class="button-group headline-xs">
       <button class="button-apply">Apply Now</button>
       <button class="button-menu">
@@ -68,13 +68,14 @@ import { Icon } from "astro-icon/components";
     max-width: 1824px;
   }
 
-  .nav-bar-logo {
-    width: 100px;
-  }
 
   @media (max-width: 810px) {
     .nav-bar-wrapper {
       height: 64px;
+    }
+
+    .nav-bar-logo {
+      font-size: var(--font-size-sm);
     }
   }
 </style>
