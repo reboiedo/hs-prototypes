@@ -13,7 +13,7 @@ const { degree, campuses } = Astro.props;
 
 <article class="degree-card">
   <div class="card-header">
-    <h3 class="headline-xl">{degree.name}</h3>
+    <h3 class="headline-lg">{degree.name}</h3>
     <p class="body-md">{degree.description}</p>
     <div class="campuses">
       {campuses.map(campus => (
@@ -63,8 +63,8 @@ const { degree, campuses } = Astro.props;
   }
 
   .degree-icon {
-    width: var(--space-3xl);
-    height: var(--space-3xl);
+    min-width: var(--space-3xl);
+    min-height: var(--space-3xl);
   }
 
  
@@ -76,7 +76,7 @@ const { degree, campuses } = Astro.props;
 
   @media (max-width: 810px) {
     .degree-card {
-      flex-direction: column-reverse;
+      /* flex-direction: column-reverse; */
       gap: var(--space-s);
       position: relative;
     }

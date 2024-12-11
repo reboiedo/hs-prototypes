@@ -1,4 +1,5 @@
 import type { Campus } from "../types";
+import { degreeMetadata } from "./degreeMetadata";
 
 export interface Degree {
   id: string;
@@ -36,15 +37,16 @@ export const degreeData: DegreeCollection = {
     {
       id: "computer-science-master",
       name: "Computer Science",
-      description: "Most things in the world work with computers. Will you?",
+      description: degreeMetadata["computer-science"].description,
       category: "Technology",
-      icon: "badge-id",
+      icon: degreeMetadata["computer-science"].icon,
       campuses: ["Barcelona", "Bangkok"],
     },
     {
       id: "cyber-security-master",
       name: "Cyber Security",
-      description: "Most things in the world work with computers. Will you?",
+      description:
+        "The ultimate university programme on the protection of digital assets and privacy.",
       category: "Technology",
       icon: "badge-id",
       campuses: ["Barcelona"],
@@ -52,7 +54,8 @@ export const degreeData: DegreeCollection = {
     {
       id: "data-science-master",
       name: "Data Science",
-      description: "Most things in the world work with computers. Will you?",
+      description:
+        "Get ready for the Petabyte and learn what we can do with it.",
       category: "Technology",
       icon: "badge-id",
       campuses: ["Barcelona", "Bangkok"],
@@ -60,7 +63,8 @@ export const degreeData: DegreeCollection = {
     {
       id: "front-end-development-master",
       name: "Front-End Development",
-      description: "Most things in the world work with computers. Will you?",
+      description:
+        "Where programming and creativity collide to build intricate, inventive and interesting web interfaces.",
       category: "Technology",
       icon: "badge-id",
       campuses: ["Barcelona", "Bangkok"],
@@ -68,7 +72,8 @@ export const degreeData: DegreeCollection = {
     {
       id: "digital-marketing-master",
       name: "Digital Marketing",
-      description: "Most things in the world work with computers. Will you?",
+      description:
+        "A programme that delves into the marketing strategies that make great digital dreams come true.",
       category: "Creative",
       icon: "badge-id",
       campuses: ["Barcelona", "Bangkok"],
@@ -118,9 +123,9 @@ export const degreeData: DegreeCollection = {
     {
       id: "computer-science-bachelor",
       name: "Computer Science",
-      description: "Build the foundations of your tech career.",
+      description: degreeMetadata["computer-science"].description,
       category: "Technology",
-      icon: "badge-id",
+      icon: degreeMetadata["computer-science"].icon,
       campuses: ["Barcelona", "Bangkok"],
     },
     {
