@@ -17,72 +17,45 @@ import NavBody from "./NavBody.astro";
 <script>
   import { gsap } from "gsap";
 
-  // DOM Elements
-  const navBody = document.getElementById('side-navigation') as HTMLElement;
-  const menuButtons = document.querySelectorAll('[data-menu-button]');
-  
-  // Animation Config
-  const config = {
-    duration: 0.6,
-    ease: 'power3.inOut',
-    clipPaths: {
-      hidden: "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)",
-      visible: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-    }
-  };
+  // Elements
+  const nav = document.getElementById('side-navigation') as HTMLElement;
+  const menuButton = document.querySelector('[data-menu-button]');
 
-  // Timelines
-  const tlOpen = gsap.timeline({ 
-    paused: true,
-    onStart: () => {
-      if (navBody) {
-        navBody.style.visibility = 'visible';
-        document.body.style.overflow = 'hidden';
+  let isOpen = false; // Track state explicitly
+
+  // Timeline Definitions
+  const tlOpen = gsap.timeline({ paused: true })
+    .fromTo(nav, {
+      clipPath: "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)",
+      visibility: 'hidden'
+    }, {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      visibility: 'visible',
+      duration: 0.5,
+      ease: "power3.inOut"
+    });
+
+  const tlClose = gsap.timeline({ paused: true })
+    .to(nav, {
+      clipPath: "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)",
+      duration: 0.5,
+      ease: "power3.inOut",
+      onComplete: () => {
+        nav.style.visibility = 'hidden';
+        isOpen = false;
       }
-    }
-  }).fromTo(navBody, {
-    clipPath: config.clipPaths.hidden
-  }, {
-    clipPath: config.clipPaths.visible,
-    duration: config.duration,
-    ease: config.ease
-  });
+    });
 
-  const tlClose = gsap.timeline({ 
-    paused: true,
-    onComplete: () => {
-      if (navBody) {
-        navBody.style.visibility = 'hidden';
-        document.body.style.overflow = '';
-      }
-    }
-  }).to(navBody, {
-    clipPath: config.clipPaths.hidden,
-    duration: config.duration,
-    ease: config.ease
-  });
-
-  // Event Handlers
-  function handleMenuClick() {
-    if (!navBody) return;
-
-    const isOpen = navBody.hasAttribute('open');
-    
+  // Event Handling
+  menuButton?.addEventListener('click', () => {
     if (!isOpen) {
-      navBody.setAttribute('open', '');
-      menuButtons.forEach(btn => btn.setAttribute('aria-expanded', 'true'));
-      gsap.set(navBody, { clipPath: config.clipPaths.hidden });
+      document.body.style.overflow = 'hidden';
       tlOpen.restart();
+      isOpen = true;
     } else {
-      menuButtons.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
+      document.body.style.overflow = '';
       tlClose.restart();
-      navBody.removeAttribute('open');
     }
-  }
-
-  // Event Listeners
-  menuButtons.forEach(button => {
-    button.addEventListener('click', handleMenuClick);
   });
 </script>
 

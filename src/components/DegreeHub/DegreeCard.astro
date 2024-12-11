@@ -1,0 +1,95 @@
+---
+import type { Degree } from './constants/degreeData';
+import { Icon } from 'astro-icon/components';
+import CampusButton from './CampusButton.astro';
+
+interface Props {
+  degree: Degree;
+  campuses: Degree['campuses'];
+}
+
+const { degree, campuses } = Astro.props;
+---
+
+<article class="degree-card">
+  <div class="card-header">
+    <h3 class="headline-xl">{degree.name}</h3>
+    <p class="body-md">{degree.description}</p>
+    <div class="campuses">
+      {campuses.map(campus => (
+        <CampusButton campus={campus} />
+      ))}
+    </div>
+  </div>
+  <div class="card-footer">
+    {degree.icon && <Icon name={degree.icon} class="degree-icon" />}
+  </div>
+</article>
+
+<style>
+  .degree-card {
+    color: var(--color-white);
+    background-color: transparent;
+    border-radius: var(--radius-m);
+    padding: var(--space-m) 0 var(--space-xl) 0;
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-xl);
+    border-bottom: 1px solid var(--color-purple-700);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .degree-card p {
+    color: var(--color-purple-200);
+    margin-bottom: var(--space-xs);
+  }
+
+  :global(.card-wrapper:last-child) .degree-card {
+    border-bottom: none;
+  }
+
+  :global(.card-wrapper:first-child) .degree-card {
+    padding-top: 0;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: flex-start;
+  }
+
+  .degree-icon {
+    width: var(--space-3xl);
+    height: var(--space-3xl);
+  }
+
+ 
+
+  .campuses {
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  @media (max-width: 810px) {
+    .degree-card {
+      flex-direction: column-reverse;
+      gap: var(--space-s);
+      position: relative;
+    }
+
+    .degree-icon {
+      /* margin-left: auto;
+      flex-grow: 0; */
+    }
+
+    
+
+    :global(.card-wrapper:first-child) .degree-card {
+    /* margin-top: var(--space-xl); */
+    }
+  }
+</style> 

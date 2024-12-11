@@ -1,0 +1,41 @@
+---
+import type { DegreeType } from './types';
+
+interface Props {
+  type: DegreeType;
+  isActive: boolean;
+  displayName: string;
+}
+
+const { type, isActive, displayName } = Astro.props;
+---
+
+<button 
+  class="tab-button headline-sm" 
+  data-type={type}
+  aria-pressed={isActive}
+>
+  {displayName}
+</button>
+
+<style>
+  .tab-button {
+    padding: var(--space-3xs) var(--space-2xs);
+    border: none;
+    background: none;
+    color: var(--color-purple-300);
+    cursor: pointer;
+    border-radius: 200px;
+    transition: all 0.2s ease;
+    line-height: 1;
+  }
+
+  .tab-button[aria-pressed="true"] {
+    background-color: var(--color-white);
+    color: var(--color-purple-900);
+  }
+
+  .tab-button:hover:not([aria-pressed="true"]) {
+    color: var(--color-white);
+  }
+</style>

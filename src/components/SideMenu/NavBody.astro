@@ -57,7 +57,7 @@ import ButtonMenu from './ButtonMenu.astro';
 
   .nav-content {
     position: fixed;
-    top: var(--banner-height);
+    top: 0;
     bottom: 0;
     right: 0;
     background-color: var(--color-purple-800);
@@ -66,25 +66,11 @@ import ButtonMenu from './ButtonMenu.astro';
     margin-left: auto;
     display: flex;
     flex-direction: column;
-    height: calc(100% - var(--banner-height));
-    visibility: hidden;
+    height: 100vh;
     z-index: 1000;
     overflow: scroll;
-  }
-
-  .nav-header {
-    height: var(--header-height);
-    min-height: var(--header-height);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-inline: var(--space-s-m);
-    border-bottom: 1px solid var(--color-purple-700);
-  }
-
-  .header-buttons {
-    display: flex;
-    gap: var(--space-xs);
+    padding-top: var(--banner-height);
+    visibility: hidden;
   }
 
   .nav-content-primary {
@@ -138,45 +124,44 @@ import ButtonMenu from './ButtonMenu.astro';
     text-decoration: none;
   }
 
+  .nav-header {
+    height: var(--header-height);
+    min-height: var(--header-height);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: var(--space-s-m);
+    border-bottom: 1px solid var(--color-purple-700);
+  }
+
   @media (min-width: 768px) {
     .nav-content {
       display: grid;
       grid-template-columns: 1fr 3fr;
       grid-template-rows: auto 1fr;
+      gap: 2rem;
       grid-template-areas: 
         "nav nav"
-        "secondary primary"
         "secondary primary";
-      gap: 2rem;
-      grid-auto-flow: dense;
     }
 
     .nav-header {
       grid-area: nav;
-      border-bottom: none;
-    }
-
-    .logo-nav {
-      opacity: 0;
     }
 
     .nav-content-primary {
-      padding-bottom: 0;
       grid-area: primary;
-      overflow: scroll;
-      padding-inline: var(--space-s-m);
+    }
+
+    .nav-content-secondary {
+      grid-area: secondary;
     }
 
     .nav-secondary-top {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      padding-top: var(--space-s);
-    }
-
-    .nav-content-secondary {
-      justify-content: space-between;
-      min-width: var(--space-5xl);
     }
 
     .nav-secondary-top .extra-padding {

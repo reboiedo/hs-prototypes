@@ -1,0 +1,336 @@
+---
+import { degreeData } from './constants/degreeData';
+import type { DegreeType } from './types';
+import type { CampusFilter as CampusFilterType } from './types';
+import TabButton from './TabButton.astro';
+import CampusFilter from './CampusFilter.astro';
+import DegreeCard from './DegreeCard.astro';
+import SelectFilter from './SelectFilter.astro';
+import type { SelectOption } from './SelectFilter.astro';
+
+const degreeTypes: DegreeType[] = ["Bachelor", "Master", "ContinuedStudies"];
+const campusOptions: CampusFilterType[] = ["All", "Barcelona", "Bangkok"];
+const categories = ["Technology", "Creative", "All Programmes"] as const;
+
+// Degree type display names
+const degreeTypeDisplayNames: Record<DegreeType, string> = {
+  Bachelor: "Bachelor",
+  Master: "Master",
+  ContinuedStudies: "Continued Studies"
+};
+
+// Campus display names
+const campusDisplayNames: Record<CampusFilterType, string> = {
+  All: "All Campuses",
+  Barcelona: "Barcelona",
+  Bangkok: "Bangkok"
+};
+
+// Create options arrays for SelectFilter
+const degreeTypeOptions: SelectOption[] = degreeTypes.map(type => ({
+  value: type,
+  label: degreeTypeDisplayNames[type],
+  selected: type === "Bachelor"
+}));
+
+const campusFilterOptions: SelectOption[] = campusOptions.map(option => ({
+  value: option,
+  label: campusDisplayNames[option],
+  selected: option === "All"
+}));
+
+// Helper function to group degrees by category
+function groupByCategory(degrees: typeof degreeData[DegreeType]) {
+  return categories.reduce((acc, category) => {
+    const degreesInCategory = degrees.filter(degree => degree.category === category);
+    if (degreesInCategory.length > 0) {
+      acc[category] = degreesInCategory;
+    }
+    return acc;
+  }, {} as Record<string, typeof degrees>);
+}
+---
+
+<div class="degree-list">
+  <div class="filters">
+    <div class="wrapper-filters">
+      {/* Desktop Tabs */}
+      <div class="tabs desktop-only">
+        {degreeTypes.map((type) => (
+          <TabButton 
+            type={type} 
+            isActive={type === "Bachelor"}
+            displayName={degreeTypeDisplayNames[type]}
+          />
+        ))}
+      </div>
+
+      {/* Mobile Select */}
+      <div class="mobile-only">
+        <SelectFilter 
+          id="degree-type-select"
+          options={degreeTypeOptions}
+        />
+      </div>
+
+      <SelectFilter 
+        id="campus-select"
+        options={campusFilterOptions}
+      />
+    </div>
+  </div>
+
+  {degreeTypes.map(type => {
+    const groupedDegrees = groupByCategory(degreeData[type]);
+    
+    return (
+      <section 
+        class="degree-section"
+        data-type={type}
+        hidden={type !== "Bachelor"}
+      >
+        {Object.entries(groupedDegrees).map(([category, degrees]) => (
+          <div class="category-section">
+            <div class="category-title">
+              <h2 class="headline-xl">{category}</h2>
+            </div>
+            <div class="cards-grid">
+              {degrees.map(degree => (
+                <div 
+                  class="card-wrapper"
+                  data-campuses={degree.campuses.join(' ')}
+                >
+                  <DegreeCard 
+                    degree={degree}
+                    campuses={degree.campuses}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
+    );
+  })}
+</div>
+
+<script>
+  // Elements
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.tab-button');
+  const sections = document.querySelectorAll<HTMLElement>('.degree-section');
+  const campusSelect = document.getElementById('campus-select') as HTMLSelectElement;
+
+  // Show section and filter by campus
+  function updateDisplay(selectedType: string, selectedCampus: string) {
+    sections.forEach(section => {
+      // First handle section visibility
+      const isCorrectType = section.dataset.type === selectedType;
+      section.hidden = !isCorrectType;
+
+      // Then filter cards by campus if section is visible
+      if (isCorrectType) {
+        const cards = section.querySelectorAll<HTMLElement>('.card-wrapper');
+        cards.forEach(card => {
+          const campuses = card.dataset.campuses?.split(' ') || [];
+          const shouldShow = selectedCampus === 'All' || campuses.includes(selectedCampus);
+          card.hidden = !shouldShow;
+
+          // Update campus button visibility
+          const campusButtons = card.querySelectorAll<HTMLElement>('.campus-button');
+          campusButtons.forEach(button => {
+            const campus = button.textContent?.trim();
+            button.hidden = selectedCampus !== 'All' && campus !== selectedCampus;
+          });
+        });
+      }
+    });
+  }
+
+  // Handle tab clicks
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const selectedType = tab.dataset.type;
+      if (!selectedType) return;
+
+      // Update tab states
+      tabs.forEach(t => t.setAttribute('aria-pressed', 'false'));
+      tab.setAttribute('aria-pressed', 'true');
+
+      // Update display
+      updateDisplay(selectedType, campusSelect.value);
+    });
+  });
+
+  // Handle campus filter
+  campusSelect?.addEventListener('change', (e) => {
+    const selectedCampus = (e.target as HTMLSelectElement).value;
+    const activeTab = document.querySelector<HTMLButtonElement>('[aria-pressed="true"]');
+    const selectedType = activeTab?.dataset.type;
+    
+    if (selectedType) {
+      updateDisplay(selectedType, selectedCampus);
+    }
+  });
+
+  // Add handler for mobile select
+  const degreeTypeSelect = document.getElementById('degree-type-select') as HTMLSelectElement;
+  
+  degreeTypeSelect?.addEventListener('change', (e) => {
+    const selectedType = (e.target as HTMLSelectElement).value;
+    const campusValue = campusSelect?.value || "All";
+    
+    // Update tab states for sync between mobile/desktop
+    tabs.forEach(tab => {
+      tab.setAttribute('aria-pressed', tab.dataset.type === selectedType ? 'true' : 'false');
+    });
+
+    updateDisplay(selectedType, campusValue);
+  });
+</script>
+
+<style>
+
+
+  .wrapper-filters {
+    max-width: 1824px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: var(--space-2xs);
+    width: 100%;
+  }
+  
+  .filters {
+    display: flex;
+    padding-inline: var(--space-s-m);
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    margin-inline: calc(var(--space-s-m) * -1);
+    top: 80px;
+    background-color: var(--color-purple-800);
+    border-bottom: 1px solid var(--color-purple-700);
+    z-index: 100;
+  }
+
+  .tabs {
+    display: flex;
+    gap: var(--space-3xs);
+  }
+
+  .degree-list {
+    padding-inline: var(--space-s-m);
+  }
+
+
+  .degree-section {
+    max-width: 1824px;
+    margin: 0 auto;
+    gap: 0;
+  }
+
+  .cards-grid {
+    /* display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-l); */
+  }
+
+  .card-wrapper {
+    transition: opacity 0.3s ease;
+  }
+
+  .card-wrapper[hidden] {
+    display: none;
+  }
+
+  .campus-select {
+    padding: var(--space-xs) var(--space-m);
+    border: 1px solid var(--color-purple-200);
+    border-radius: var(--radius-s);
+    background-color: var(--color-white);
+    color: var(--color-purple-800);
+    font-size: var(--font-size-base);
+    cursor: pointer;
+  }
+
+  .category-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-l);
+    border-top: 1px solid var(--color-purple-700);
+    padding-block: var(--space-m);
+  }
+
+  .category-section:first-of-type {
+    border-top: none;
+  }
+
+
+
+  .category-title {
+    color: var(--color-white);
+    text-transform: uppercase;
+    position: sticky;
+    align-self: flex-start;
+    top: calc(var(--space-2xl) + 80px);
+    z-index: 0;
+  }
+
+  .cards-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  
+
+  :global(.campus-button[hidden]) {
+    display: none;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+
+
+  @media (max-width: 810px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+
+    .filters {
+      top: 64px;
+    }
+
+    .wrapper-filters {
+      justify-content: left;
+      gap: var(--space-2xs);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .category-section {
+      grid-template-columns: 1fr;
+      padding-block: 0;
+      gap: 0;
+      border-top: none;
+    }
+
+    .category-title {
+      position: relative;
+      top: 0;
+      background: linear-gradient(to right, var(--color-purple-700), var(--color-purple-800));
+      padding-block: var(--space-xs);
+      margin-inline: calc(var(--space-s-m) * -1);
+      padding-inline: var(--space-s-m);
+      margin-bottom: var(--space-m);
+    }
+
+    
+
+  }
+</style> 

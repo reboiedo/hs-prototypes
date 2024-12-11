@@ -1,0 +1,37 @@
+---
+import { Icon } from "astro-icon/components";
+
+
+---
+
+<header class="nav-bar">
+  <div class="nav-bar-wrapper">
+    <Icon name="logo--white" />
+  </div>
+</header>
+
+<style>
+  .nav-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--color-purple-800);
+    padding-inline: var(--space-s-m);
+    z-index: 100;
+  }
+
+  .nav-bar-wrapper {
+    margin: 0 auto;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1824px;
+  }
+
+  @media (max-width: 810px) {
+    .nav-bar-wrapper {
+      height: 64px;
+    }
+  }
+</style>

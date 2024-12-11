@@ -1,0 +1,38 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Campus } from './types';
+
+interface Props {
+  campus: Campus;
+}
+
+const { campus } = Astro.props;
+
+---
+<button class="campus-button">
+  <span>{campus}</span>
+  <Icon name="mdi:arrow-top-right" />
+</button>
+
+<style>
+
+  .campus-button {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    flex-direction: columns;
+    font-size: var(--font-size-sm);
+    padding: var(--space-2xs) var(--space-xs);
+    background-color: transparent;
+    color: var(--color-white);
+    border-radius: 200px;
+    border: 1px solid var(--color-purple-700);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  
+  }
+
+  .campus-button:hover {
+    border: 1px solid var(--color-white);
+  }
+</style> 
