@@ -12,7 +12,7 @@ const { surface, ...rest } = Astro.props;
 
 
 <button class:list={["btn", surface]} {...rest}>
-  <Icon name="mdi:menu" class="icon" />
+  <Icon name="mdi:menu" class="icon heading-lg" />
 </button>
 
 <style>
@@ -34,7 +34,6 @@ const { surface, ...rest } = Astro.props;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: var(--font-size-lg);
       height: var(--size-button-l);
       width: var(--size-button-l);
       background-color: transparent;
