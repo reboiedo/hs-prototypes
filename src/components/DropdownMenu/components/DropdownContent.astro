@@ -1,0 +1,39 @@
+---
+import type { SubItem } from '../constants/navigationData';
+import PageLink from './PageLink.astro';
+
+interface Props {
+  category: string;
+  items: SubItem[];
+  surface?: "white" | "dark";
+}
+
+// Helper function to group items by category
+function groupByCategory(items: SubItem[]): Record<string, SubItem[]> {
+  return items.reduce((acc: Record<string, SubItem[]>, item) => {
+    if (!acc[item.category]) {
+      acc[item.category] = [];
+    }
+    acc[item.category].push(item);
+    return acc;
+  }, {});
+}
+
+const { category, items, surface = "white" } = Astro.props;
+const groupedItems = groupByCategory(items);
+---
+
+<div class:list={["dropdown-content",surface]} data-content={category} role="menu" tabindex="-1">
+  {Object.entries(groupedItems).map(([groupName, items]) => (
+    <div class="category-group">
+      <h3 class="category-title headline-2xs">{groupName}</h3>
+      <div class="category-items">
+        {items.map(item => (
+          <PageLink href={item.href} surface={surface}>
+            {item.title}
+          </PageLink>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>

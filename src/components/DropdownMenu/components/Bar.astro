@@ -1,0 +1,182 @@
+---
+
+import { Icon } from "astro-icon/components";
+import Link from "./Link.astro";
+import CategoryDropdown from "./CategoryDropdown.astro";
+import DropdownContent from "./DropdownContent.astro";
+import { navigationData } from "../constants/navigationData";
+import "../styles/dropdown.css";
+import Banner from "./Banner.astro";
+import MenuButton from "./MenuButton.astro";
+
+
+interface Props {
+  surface?: "white" | "dark";
+}
+
+const { surface = "white", ...rest } = Astro.props;
+---
+
+<header class="header">
+  <Banner message="Join early to save big" cta="Lear More" ctaHref="#"></Banner>
+  <div class:list={["navbar", surface]} {...rest}>
+    <div class="navbar-wrapper">
+      <a href="/" class="logo-link">
+        <Icon name={surface === "white" ? "logo--purple" : "logo--white"} class="logo headline-xs" />
+      </a>
+      <nav class="desktop-nav">
+        <ul id="nav-list" role="menubar">
+          {navigationData.map(category => (
+            <li data-category={category.id} role="none">
+              <CategoryDropdown
+                isActive={false}
+                role="menuitem"
+                aria-haspopup="true"
+                aria-expanded="false"
+                tabindex="0"
+                surface={surface}
+              >
+                {category.title}
+              </CategoryDropdown>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <Link href="#" variant="ghost" surface={surface} tabindex="0">Log in</Link>
+        <!-- <Link href="#" variant="ghost" tabindex="0">Apply Now</Link> -->
+        <Link href="#" surface={surface} tabindex="0">Apply Now</Link>
+        <MenuButton surface={surface} aria-label="Open menu"></MenuButton>
+      </div>
+    </div>
+  
+    <div id="dropdown-container" class:list={["dropdown-container", surface]} role="menu">
+      {navigationData.map(category => (
+        <DropdownContent
+          category={category.id}
+          items={category.items}
+          surface={surface}
+        />
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  import { DropdownController } from "../controllers/DropdownController";
+
+  const init = async () => {
+    const container = document.getElementById('dropdown-container');
+    const navList = document.getElementById('nav-list');
+    
+    if (container && navList) {
+      const controller = new DropdownController(container);
+      controller.setupEventListeners(navList);
+      console.log('Dropdown initialized');
+    } else {
+      console.error('Failed to find dropdown elements', { container, navList });
+    }
+  };
+
+  init();
+</script>
+
+<style>
+
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  .navbar {
+    padding-inline: var(--space-s-m);
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: var(--space-xs);
+    padding-left: var(--space-l-xl);
+  }
+
+  li {
+    position: relative;
+  }
+
+  nav {
+    flex-grow: 1;
+  }
+
+  .navbar.dark {
+    background-color: var(--color-dark-surface);
+    border-color: transparent;
+    color: var(--color-white);
+  }
+
+  .navbar-wrapper {
+    display: flex;
+    flex-direction: row;
+    max-width: 1824px;
+    margin: 0 auto;
+    height: 80px;
+    justify-content: left;
+    align-items: center;
+  }
+
+  .logo {
+
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: var(--space-3xs);
+  }
+
+  nav ul > li {
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  /* When any item is hovered/active, dim all siblings */
+  nav ul:has(li:hover) li,
+  nav ul:has(button[aria-expanded="true"]) li  span {
+    opacity: 0.5;
+  }
+
+  /* Reset opacity for the hovered/active item */
+  nav ul li:hover,
+  nav ul li:has(button[aria-expanded="true"]) {
+    opacity: 1 !important;
+  }
+
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .logo-link:focus-visible {
+    outline: 2px solid var(--color-purple-500);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 810px) {
+    .navbar {
+      padding-left: var(--space-s-m);
+      padding-right: var(--space-3xs);
+    }
+    .navbar-wrapper {
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+
+  }
+</style>

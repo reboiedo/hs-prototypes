@@ -1,0 +1,62 @@
+.dropdown-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(0, 0);
+  transition: opacity 0.2s ease-out;
+  will-change: transform, opacity;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0;
+  min-width: 320px;
+  z-index: 100; /* Add this */
+}
+
+.dropdown-content {
+  display: none;
+  padding: var(--space-xs);
+}
+
+.dropdown-content.active {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-l);
+}
+
+.category-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.category-title {
+  color: var(--color-grey-700);
+  text-transform: uppercase;
+}
+
+.category-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-container.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dropdown-container.animating {
+  transition: opacity 0.2s ease-out, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dropdown-container.dark {
+  background: var(--color-purple-600);
+  border-color: transparent;
+}
+
+.dark .category-title {
+  color: var(--color-purple-200);
+}
+
+/* ...rest of existing dropdown styles... */

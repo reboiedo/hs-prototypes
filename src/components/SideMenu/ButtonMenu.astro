@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 
 ---
 
@@ -8,13 +10,30 @@
   data-menu-button
   aria-label="Toggle navigation menu"
 >
-  Menu
+  <span>Menu</span>
+  <span>Close</span>
+  <Icon name="mdi:menu" />
 </button>
 
 <style>
+  span {
+    grid-area: text;
+  }
+
   .menu-button {
     position: relative;
     z-index: 1100;
-    background-color: var(--color-purple-800);
+    background-color: var(--color-purple-200);
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 200px;
+    display: grid;
+    height: var(--size-button-m);
+    padding-inline: var(--space-2xs);
+    gap: var(--space-3xs);
+    grid-template-areas: "text icon";
+  
   }
+
+
 </style>

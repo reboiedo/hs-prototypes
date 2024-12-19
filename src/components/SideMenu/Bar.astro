@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import ButtonMenu from "./ButtonMenu.astro";
+import ApplyButton from "./ApplyButton.astro";
 
 
 ---
@@ -10,7 +11,7 @@ import ButtonMenu from "./ButtonMenu.astro";
     <Icon name="logo--purple" class="logo" />
   </div>
   <div class="bar-buttons">
-    <button class="apply-button">Apply</button>
+    <ApplyButton text="Apply Now" />
     <ButtonMenu />
   </div>
 </div>
@@ -38,7 +39,7 @@ import ButtonMenu from "./ButtonMenu.astro";
     position: relative;
     z-index: 1100;
     display: flex;
-    gap: var(--space-xs);
+    gap: var(--space-2xs);
   }
 
   .apply-button {

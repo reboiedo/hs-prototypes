@@ -1,0 +1,36 @@
+---
+import Banner from "../components/DropdownMenu/components/Banner.astro";
+import Bar from "../components/DropdownMenu/components/Bar.astro";
+import Layout from "../layouts/Layout.astro";
+
+
+---
+
+<Layout>
+  <Bar surface="dark"/>
+  <section class="dark">
+    <h1>Dropdown Menu</h1>
+  </section>
+  <section>
+    <h1>Dropdown Menu</h1>
+  </section>
+  <section>
+    <h1>Dropdown Menu</h1>
+  </section>
+</Layout>
+
+<style>
+  section {
+    padding: var(--space-lg);
+    text-align: center;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    
+  }
+
+  .dark {
+    background-color: var(--color-purple-700);
+    color: var(--color-white);
+  }
+</style>

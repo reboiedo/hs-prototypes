@@ -1,0 +1,99 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+
+interface Props extends HTMLAttributes<"a"> {
+  href: string;
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "l" | "m" | "s";
+  surface?: "white" | "dark";
+}
+
+
+const { href, variant = "primary", size="m", surface="white", ...rest } = Astro.props;
+---
+
+<a class:list={["headline-xs btn", variant, size, surface]} {...rest}>
+    <slot/>
+</a>
+
+<style>
+  .btn {
+    font: inherit;
+    display: inline-flex;
+    height: var(--size-button-m);
+    border-radius: 200px;
+    align-items: center;
+    border: none;
+    padding-inline: var(--space-xs);
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .l {
+    font-size: var(--font-size-sm);
+    height: var(--size-button-l);
+    padding-inline: var(--space-s);
+  }
+
+  .m {
+    font-size: var(--font-size-xs);
+    height: var(--size-button-m);
+    padding-inline: var(--space-xs);
+  }
+
+  .s {
+    font-size: var(--font-size-2xs);
+    height: var(--size-button-s);
+    padding-inline: var(--space-2xs);
+  }
+
+
+  .primary.white {
+    color: var(--color-white);
+    background-color: var(--color-green-500);
+    border: none;
+  }
+  .primary.white:hover {
+    background-color: var(--color-green-600);
+  }
+
+  .primary.dark {
+    color: var(--color-white);
+    background-color: var(--color-green-500);
+    border: none;
+  }
+
+  .primary.dark:hover {
+    background-color: var(--color-green-600);
+  }
+
+  .ghost.white {
+    color: var(--color-black);
+    background-color: var(--color-white);
+    border: 1px solid transparent;
+  }
+
+  .ghost.white:hover {
+    background-color: var(--color-gray-100);
+  }
+
+  .ghost.dark {
+    color: var(--color-white);
+    background-color: var(--color-dark-surface);
+    border: 1px solid transparent;
+  }
+
+  .ghost.dark:hover {
+    background-color: var(--color-dark-stroke);
+  }
+
+  .link:focus-visible {
+    outline: 2px solid var(--color-purple-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+</style>
+

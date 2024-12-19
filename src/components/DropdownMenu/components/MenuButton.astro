@@ -1,0 +1,44 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  surface?: "white" | "dark";
+}
+
+
+
+const { surface, ...rest } = Astro.props;
+---
+
+
+<button class:list={["btn", surface]} {...rest}>
+  <Icon name="mdi:menu" class="icon" />
+</button>
+
+<style>
+  .btn {
+    display: none;
+  }
+
+
+  .white {
+    color: var(--color-black);
+  }
+
+  .dark {
+    color: var(--color-white);
+  }
+  
+  @media(max-width: 810px) {
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: var(--font-size-md);
+      height: var(--size-button-m);
+      width: var(--size-button-m);
+      background-color: transparent;
+      border: none;;
+    }
+  }
+</style>

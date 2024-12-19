@@ -24,16 +24,18 @@ const { campus } = Astro.props;
     font-size: inherit;
     padding-inline: var(--space-xs);
     height: var(--size-button-l);
-    background-color: transparent;
+    background-color: var(--color-purple-700);
     color: var(--color-white);
     border-radius: 200px;
-    border: 1px solid var(--color-purple-700);
+    /* border: 1px solid var(--color-purple-500); */
+    border: 1px solid transparent;
     cursor: pointer;
     transition: all 0.2s ease;
   
   }
 
   .campus-button:hover {
-    border: 1px solid var(--color-white);
+    /* border: 1px solid var(--color-white); */
+    background-color: var(--color-purple-500);
   }
 </style> 

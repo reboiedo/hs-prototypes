@@ -1,0 +1,119 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { Icon } from "astro-icon/components";
+
+interface Props extends HTMLAttributes<"button"> {
+  surface?: "white" | "dark";
+  isActive?: boolean;
+}
+
+const { isActive, surface, role, ...rest } = Astro.props;
+
+
+---
+
+<button 
+  class:list={["dropdown", surface, { active: isActive }]} 
+  {...rest}
+  role={role}
+>
+ <span class="text"><slot/></span>
+ <Icon name="mdi:chevron-down" class="icon" />
+</button>
+
+<style>
+  .dropdown {
+    position: relative;
+    anchor-name: --menu-category;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-medium);
+    letter-spacing: var(--tracking-wide);
+
+    line-height: 0.8;
+    /* padding-block: var(--space-2xs); */
+    /* text-transform: uppercase; */
+    height: 80px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid transparent;
+    background-color: transparent;
+    cursor: pointer;
+    gap: 4px
+    transition: all 0.2s ease-in-out;
+  }
+
+ 
+
+  .icon {
+    color: var(--color-gray-500);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .text {
+    position: relative;
+  }
+
+  .text::after {
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    transform: translate(-50%, 100%);
+    content: "";
+    width: 1px;
+    height: 0px;
+    background-color: var(--color-purple-500);
+    scaleY: 0;
+    transition: height 0.2s ease-in-out;
+
+  }
+
+  .dropdown:hover .text::after {
+   height: 8px;
+  }
+
+  .dropdown:hover .icon {
+    transform: rotate(180deg);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  /* .dropdown:hover > :global(*) {
+    color: var(--color-gray-700);
+  } */
+
+  /* .dropdown:hover .icon {
+    color: var(--color-gray-700);
+  } */
+
+  /* Add these new styles */
+  .dropdown.active .text::after {
+    height: 8px;
+  }
+
+  .dropdown.active .icon {
+    transform: rotate(180deg);
+    /* color: var(--color-gray-700); */
+  }
+
+  .dropdown:focus-visible {
+    outline: 2px solid var(--color-purple-500);
+    outline-offset: -2px;
+  }
+
+  .dropdown.dark {
+    .text {
+      color: var(--color-white);
+    }
+
+    .icon {
+      color: var(--color-purple-300);
+    }
+  }
+
+  .dropdown.dark .text::after {
+    background-color: var(--color-white);
+  }
+
+
+</style>

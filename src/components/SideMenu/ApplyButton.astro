@@ -1,0 +1,19 @@
+---
+const { text } = Astro.props;
+---
+
+<button class="apply-button">
+  {text}
+</button>
+
+<style>
+  .apply-button {
+    color: var(--color-white);
+    background-color: var(--color-green-500);
+    height: var(--size-button-m);
+    padding-inline: var(--space-2xs);
+    border-radius: 200px;
+    border: none;
+  }
+</style>
+

@@ -1,0 +1,70 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { Icon } from "astro-icon/components";
+
+
+interface Props extends HTMLAttributes<"a"> {
+  href?: string;
+  surface?: "white" | "dark";
+}
+
+const { href="#", surface="white", ...rest } = Astro.props;
+---
+
+
+<a class:list={["page-link", surface]} {...rest}>
+  <span><slot/></span>
+  <Icon name="mdi:chevron-right" class="icon" />
+</a>
+
+<style>
+  .page-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-light);
+    padding: var(--space-3xs) var(--space-xs);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .icon {
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+    transform: translateX(-20px);
+  }
+
+  .page-link:hover .icon {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .page-link.white:hover {
+    border-left: 1px solid var(--color-purple-500);
+  }
+
+  .white {
+    color: var(--color-black);
+    border-left: 1px solid var(--color-gray-200);
+  }
+
+  .dark {
+    color: var(--color-white);
+    border-left: 1px solid var(--color-purple-400);
+  }
+
+  .dark span {
+    color: var(--color-white);
+  }
+
+  .dark:hover{
+    color: var(--color-white);
+    border-left: 1px solid var(--color-white);
+  }
+
+  span {
+    transition: opacity 0.2s ease-in-out;
+  }
+</style>

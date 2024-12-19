@@ -194,10 +194,11 @@ function groupByCategory(degrees: typeof degreeData[DegreeType]) {
   .wrapper-filters {
     max-width: 1824px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    justify-content: left;
     padding-bottom: var(--space-2xs);
+    gap: var(--space-s);
     width: 100%;
   }
   
@@ -256,7 +257,7 @@ function groupByCategory(degrees: typeof degreeData[DegreeType]) {
 
   .category-section {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1.5fr 2fr;
     gap: var(--space-l);
     border-top: 1px solid var(--color-purple-700);
     padding-block: var(--space-m);

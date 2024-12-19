@@ -40,7 +40,8 @@
   --color-gray-950: #0a0a0a;
   --color-black: #030712;
 
-  --color-purple-50: #efeeff;
+  /* Original Values */
+  /* --color-purple-50: #efeeff;
   --color-purple-100: #dedcff;
   --color-purple-200: #cac5ff;
   --color-purple-300: #b3aaff;
@@ -50,7 +51,19 @@
   --color-purple-700: #5d35c4;
   --color-purple-800: #462b94;
   --color-purple-900: #312067;
-  --color-purple-950: #1e1440;
+  --color-purple-950: #1e1440; */
+
+  --color-purple-50: #f4f2ff;
+  --color-purple-100: #e1dbff;
+  --color-purple-200: #c1b4ff;
+  --color-purple-300: #9a83ff;
+  --color-purple-400: #7d51ff;
+  --color-purple-500: #6e26f9;
+  --color-purple-600: #5a27bc;
+  --color-purple-700: #4d2496;
+  --color-purple-800: #3c1d74;
+  --color-purple-900: #2b1750;
+  --color-purple-950: #210744;
 
   --color-green-50: #ecfdf5;
   --color-green-100: #d1fae5;
@@ -63,6 +76,9 @@
   --color-green-800: #065f46;
   --color-green-900: #064e3b;
   --color-green-950: #022c22;
+
+  --color-dark-surface: var(--color-purple-700);
+  --color-dark-stroke: var(--color-purple-600);
 
   --color-muted-700: hsl(from var(--color-purple-700) h calc(s * 0.9) l);
 
@@ -144,14 +160,14 @@ body {
   font-family: "Apercu Pro", sans-serif;
   /* font styles */
 
-  .detail-12 {
+  .body-12 {
     font-weight: var(--font-light);
     font-size: var(--font-size-12);
     line-height: var(--leading-normal);
     letter-spacing: var(--tracking-normal);
   }
 
-  .detail-14 {
+  .body-14 {
     font-weight: var(--font-light);
     font-size: var(--font-size-14);
     line-height: var(--leading-normal);
@@ -171,7 +187,7 @@ body {
     line-height: var(--leading-normal);
   }
 
-  .detail-2xs {
+  .body-2xs {
     font-weight: var(--font-light);
     font-size: var(--font-size-2xs);
     line-height: var(--leading-none);
