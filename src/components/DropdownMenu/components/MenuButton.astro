@@ -11,13 +11,25 @@ const { surface, ...rest } = Astro.props;
 ---
 
 
-<button class:list={["btn", surface]} {...rest}>
-  <Icon name="mdi:menu" class="icon heading-lg" />
+<button class:list={["btn", surface]} {...rest} id="open-menu">
+  <Icon name="mdi:menu" class="icon" />
 </button>
 
 <style>
   .btn {
     display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    height: var(--size-button-l);
+    width: var(--size-button-l);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .icon {
+    min-width: var(--font-size-lg);
   }
 
 
@@ -32,12 +44,6 @@ const { surface, ...rest } = Astro.props;
   @media(max-width: 810px) {
     .btn {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: var(--size-button-l);
-      width: var(--size-button-l);
-      background-color: transparent;
-      border: none;;
     }
   }
 </style>

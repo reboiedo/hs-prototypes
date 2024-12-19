@@ -43,9 +43,9 @@ const { surface = "white", ...rest } = Astro.props;
         </ul>
       </nav>
       <div class="nav-actions">
-        <Link href="#" variant="ghost" surface={surface} tabindex="0">Log in</Link>
+        <Link href="#" variant="ghost" surface={surface} tabindex="0" id="log-in">Log in</Link>
         <!-- <Link href="#" variant="ghost" tabindex="0">Apply Now</Link> -->
-        <Link href="#" surface={surface} tabindex="0">Apply Now</Link>
+        <Link href="#" surface={surface} tabindex="0" id="apply-now">Apply Now</Link>
         <MenuButton surface={surface} aria-label="Open menu"></MenuButton>
       </div>
     </div>
@@ -172,6 +172,7 @@ const { surface = "white", ...rest } = Astro.props;
     .navbar-wrapper {
       justify-content: space-between;
       height: 56px;
+      gap: 0;
     }
 
     .nav-actions {
