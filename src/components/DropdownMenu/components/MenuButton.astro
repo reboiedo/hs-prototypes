@@ -11,7 +11,7 @@ const { surface, ...rest } = Astro.props;
 ---
 
 
-<button class:list={["btn", surface]} {...rest} id="open-menu">
+<button class:list={["btn heading-5xl", surface]} {...rest} id="open-menu">
   <Icon name="mdi:menu" class="icon" />
 </button>
 
@@ -26,10 +26,12 @@ const { surface, ...rest } = Astro.props;
     background-color: transparent;
     border: none;
     cursor: pointer;
+    border-radius: 100px;
   }
 
+
   .icon {
-    min-width: var(--font-size-lg);
+    font-size: var(--font-size-xl);
   }
 
 
@@ -37,8 +39,16 @@ const { surface, ...rest } = Astro.props;
     color: var(--color-black);
   }
 
+  .white:hover {
+    background-color: var(--color-gray-100);
+  }
+
   .dark {
     color: var(--color-white);
+  }
+
+  .dark:hover {
+    background-color: var(--color-purple-600);
   }
   
   @media(max-width: 810px) {
