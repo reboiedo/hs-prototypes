@@ -37,7 +37,7 @@ const { id, options } = Astro.props;
     height: var(--size-button-m);
     border: 1px solid transparent;
     border-radius: 500px;
-    background-color: var(--color-purple-800);
+    background-color: var(--color-purple-700);
     color: var(--color-white);
     font-size: var(--font-size-base);
     cursor: pointer;
@@ -48,7 +48,7 @@ const { id, options } = Astro.props;
 
   select:hover {
     border: 1px solid transparent;
-    background-color: var(--color-purple-700);
+    background-color: var(--color-purple-600);
   }
 
   .select-filter-icon {
@@ -64,6 +64,10 @@ const { id, options } = Astro.props;
     select {
       width: 100%;
       border-radius: 8px;
+    }
+
+    .select-filter {
+      justify-self: stretch;
     }
   }
 </style> 

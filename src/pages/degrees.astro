@@ -3,16 +3,17 @@ import Layout from "../layouts/Layout.astro";
 import Hero from "../components/DegreeHub/Hero.astro";
 import DegreeList from "../components/DegreeHub/DegreeList.astro";
 import Nav from "../components/DegreeHub/nav.astro";
+import Bar from "../components/DropdownMenu/components/Bar.astro";
 ---
 
 <Layout>
-  <Nav />
+  <Bar surface="dark"/>
   <Hero />
   <DegreeList />
 </Layout> 
 
 <style>
   body {
-    background-color: var(--color-purple-800);
+    background-color: var(--color-purple-700);
   }
 </style>
