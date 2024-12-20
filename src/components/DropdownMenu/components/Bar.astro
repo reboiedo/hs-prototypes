@@ -125,16 +125,65 @@ const { surface = "white", ...rest } = Astro.props;
     // Update animation when window resizes
     window.addEventListener('resize', updateBannerAnimation);
 
-    // Simplified scroll logic
+    // Add threshold and last known position tracking
+    let lastScrollY = 0;
+    const SCROLL_THRESHOLD = 5;
+    let ticking = false;
+
+    // Single scroll handler with threshold logic
     const handleScroll = () => {
-      if (window.scrollY > 0) {
-        tl.play();
-      } else {
-        tl.reverse();
+      const currentScroll = window.scrollY;
+      
+      // Only trigger if scroll difference exceeds threshold
+      if (Math.abs(currentScroll - lastScrollY) > SCROLL_THRESHOLD) {
+        if (currentScroll > lastScrollY) {
+          // Scrolling down
+          if (currentScroll > SCROLL_THRESHOLD) {
+            tl.play();
+          }
+        } else {
+          // Scrolling up
+          if (currentScroll < SCROLL_THRESHOLD) {
+            tl.reverse();
+          }
+        }
+        lastScrollY = currentScroll;
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Touch handling
+    let touchStart = 0;
+    
+    document.addEventListener('touchstart', (e) => {
+      touchStart = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+      const touchEnd = e.touches[0].clientY;
+      const diff = touchStart - touchEnd;
+
+      if (Math.abs(diff) > SCROLL_THRESHOLD) {
+        if (diff > 0 && window.scrollY > SCROLL_THRESHOLD) {
+          // Scrolling down
+          tl.play();
+        } else if (diff < 0 && window.scrollY < SCROLL_THRESHOLD) {
+          // Scrolling up
+          tl.reverse();
+        }
+        touchStart = touchEnd;
+      }
+    }, { passive: true });
+
+    // Optimized scroll listener with requestAnimationFrame
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
 
     const handleBannerAnimation = () => {
       if (container && controller) {
