@@ -39,7 +39,7 @@ const { title, duration, description, campus } = data;
       <div class="col-2">
         {
           campus.map((camp) => (
-            <div class="tag">{camp} <Icon name="icon--arrow"/></div>
+            <div class="tag">{camp} <Icon name="icon--arrow" class="icon"/></div>
           ))
         }
    </div>
@@ -123,11 +123,11 @@ const { title, duration, description, campus } = data;
   .tag {
     font-size: var(--font-size-xs);
     height: var(--size-button-l);
-    padding-inline: var(--space-s);
-    /* background-color: var(--color-purple-600); */
+    padding-left: var(--space-s);
+    padding-right: var(--space-xs);
     border: 1px solid var(--color-purple-400);
     border-radius: 100px;
-    color: var(--color-purple-100);
+    color: var(--color-white);
     justify-self: start;
     display: flex;
     align-items: center;
@@ -135,14 +135,12 @@ const { title, duration, description, campus } = data;
     cursor: pointer;
   }
 
+
+
+
   .tag:hover {
     /* background-color: var(--color-purple-500); */
     border: 1px solid var(--color-white);
-    color: var(--color-white);
-
-    .icon--arrow {
-      color: var(--color-white);
-    }
 
   }
 </style>
