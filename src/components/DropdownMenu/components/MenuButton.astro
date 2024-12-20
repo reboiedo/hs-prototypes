@@ -11,7 +11,13 @@ const { surface, ...rest } = Astro.props;
 ---
 
 
-<button class:list={["btn heading-5xl", surface]} {...rest} id="open-menu">
+<button 
+  class:list={["btn heading-5xl", surface]} 
+  id="open-menu"
+  aria-expanded="false"
+  aria-controls="mobile-nav"
+  {...rest} 
+>
   <Icon name="mdi:menu" class="icon" />
 </button>
 

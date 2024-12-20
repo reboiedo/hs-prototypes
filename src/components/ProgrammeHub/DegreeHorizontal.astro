@@ -17,7 +17,7 @@ const { title, duration, description, campus } = data;
 ---
 
 <li>
-  <a href="" class="programme-row">
+  <div class="programme-row">
 
   <div class="line"></div>
 
@@ -47,7 +47,7 @@ const { title, duration, description, campus } = data;
 
     <!-- <Icon name="icon--arrow-thin" size={48} /> -->
 
-  </a>
+</div>
 </li>
 
 <style>
@@ -60,12 +60,10 @@ const { title, duration, description, campus } = data;
     text-decoration: none;  
     color: var(--color-purple-200);
     gap: var(--space-m);
-    border-top: 2px solid var(--color-muted-700);
+    border-top: 1px solid var(--color-purple-600);
     padding-top: var(--space-s);
     padding-bottom: var(--space-2xl);
-    align-items: top;
-    cursor;
-  }
+    align-items: top;  }
 
 
   .line {
@@ -86,11 +84,11 @@ const { title, duration, description, campus } = data;
     align-items: center;
     span {
       font-weight: var(--font-light);
-      color: var(--color-purple-600);
+      color: var(--color-purple-400);
     }
 
     .span-strong {
-      color: var(--color-purple-300);
+      color: var(--color-purple-200);
     }
   }
 
@@ -117,22 +115,34 @@ const { title, duration, description, campus } = data;
 
   .col-2 {
     display: flex;
-    gap: var(--space-3xs);
+    gap: var(--space-2xs);
     align-items: center;
 
   }
 
   .tag {
-    font-size: var(--font-size-s);
-
-    padding: var(--space-2xs) var(--space-xs);
-    /* background-color: var(--color-muted-700); */
-    border: 1px solid var(--color-muted-700);
+    font-size: var(--font-size-xs);
+    height: var(--size-button-l);
+    padding-inline: var(--space-s);
+    /* background-color: var(--color-purple-600); */
+    border: 1px solid var(--color-purple-400);
     border-radius: 100px;
     color: var(--color-purple-100);
     justify-self: start;
     display: flex;
     align-items: center;
     gap: var(--space-2xs);
+    cursor: pointer;
+  }
+
+  .tag:hover {
+    /* background-color: var(--color-purple-500); */
+    border: 1px solid var(--color-white);
+    color: var(--color-white);
+
+    .icon--arrow {
+      color: var(--color-white);
+    }
+
   }
 </style>

@@ -8,6 +8,7 @@ import { Icon } from "astro-icon/components";
 import HubHero from "../components/ProgrammeHub/HubHero.astro";
 import DegreeHorizontal from "../components/ProgrammeHub/DegreeHorizontal.astro";
 import Layout from "../layouts/Layout.astro";
+import Bar from "../components/DropdownMenu/components/Bar.astro";
 
 const degrees = await getCollection("degrees");
 
@@ -15,11 +16,7 @@ const degrees = await getCollection("degrees");
 ---
 
 <Layout>
-  <Navigation />
-
-
-
-
+  <Bar surface="dark"/>
   <div class="container">
     <div class="content">
       <HubHero />
@@ -42,7 +39,7 @@ const degrees = await getCollection("degrees");
 <style>
   body {
     color: var(--color-white);
-    background-color: var(--color-purple-800);
+    background-color: var(--color-purple-700);
   }
 
   ul {

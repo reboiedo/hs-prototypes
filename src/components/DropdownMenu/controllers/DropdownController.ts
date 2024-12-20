@@ -12,6 +12,15 @@ export class DropdownController {
     this.container = container;
   }
 
+  private getHeaderOffset(): number {
+    const header = document.querySelector(".header") as HTMLElement;
+    if (!header) return 0;
+    const transform = window.getComputedStyle(header).transform;
+    if (transform === "none") return 0;
+    const matrix = new DOMMatrix(transform);
+    return matrix.m42; // Get Y transform value
+  }
+
   showDropdown(
     category: Category,
     rect: DOMRect,
@@ -24,18 +33,24 @@ export class DropdownController {
       cancelAnimationFrame(this.state.animationFrame);
     }
 
+    const headerOffset = this.getHeaderOffset();
+
     // Always animate if dropdown is already active
     if (this.state.isActive) {
       this.container.classList.add("animating");
       this.state.animationFrame = requestAnimationFrame(() => {
         this.state.animationFrame = requestAnimationFrame(() => {
-          this.container.style.transform = `translate(${rect.left}px, ${rect.bottom}px)`;
+          this.container.style.transform = `translate(${rect.left}px, ${
+            rect.bottom - headerOffset
+          }px)`;
           this.state.currentRect = rect;
         });
       });
     } else {
       // Initial opening - no animation
-      this.container.style.transform = `translate(${rect.left}px, ${rect.bottom}px)`;
+      this.container.style.transform = `translate(${rect.left}px, ${
+        rect.bottom - headerOffset
+      }px)`;
       this.container.classList.add("active");
       this.state.currentRect = rect;
     }

@@ -1,6 +1,7 @@
 ---
 
 import { Icon } from "astro-icon/components";
+import type { Category } from "../types/dropdown";
 import Link from "./Link.astro";
 import CategoryDropdown from "./CategoryDropdown.astro";
 import DropdownContent from "./DropdownContent.astro";
@@ -59,40 +60,141 @@ const { surface = "white", ...rest } = Astro.props;
         />
       ))}
     </div>
+
+    <nav class="mobile-nav" id="mobile-nav" popover="">
+
+    </nav>
+
+    
   </div>
 </header>
 
 <script>
   import { DropdownController } from "../controllers/DropdownController";
+  import type { Category } from "../types/dropdown";
+  import { gsap } from "gsap";
 
   const init = async () => {
     const container = document.getElementById('dropdown-container');
     const navList = document.getElementById('nav-list');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const menuButton = document.getElementById('open-menu');
+    let controller: DropdownController;
     
     if (container && navList) {
-      const controller = new DropdownController(container);
+      controller = new DropdownController(container);
       controller.setupEventListeners(navList);
-      console.log('Dropdown initialized');
-    } else {
-      console.error('Failed to find dropdown elements', { container, navList });
     }
+
+    // Mobile menu toggle
+    if (menuButton && mobileNav) {
+      menuButton.addEventListener('click', () => {
+        mobileNav.classList.toggle('active');
+        menuButton.setAttribute('aria-expanded', 
+          mobileNav.classList.contains('active').toString());
+      });
+    }
+
+    // Banner animation setup with type safety
+    const header = document.querySelector('.header') as HTMLElement | null;
+    const banner = document.querySelector('.banner') as HTMLElement | null;
+    
+    if (!header || !banner) {
+      console.warn('Header or banner elements not found');
+      return;
+    }
+    
+    const tl = gsap.timeline({ paused: true });
+    
+    // Function to update animation based on current banner height
+    const updateBannerAnimation = () => {
+      const bannerHeight = banner.getBoundingClientRect().height;
+      if (!isNaN(bannerHeight) && bannerHeight > 0) {
+        tl.clear();
+        tl.to(header, {
+          y: -bannerHeight,
+          duration: 0.3,
+          ease: "power2.inOut"
+        });
+      }
+    };
+
+    // Initial setup
+    updateBannerAnimation();
+
+    // Update animation when window resizes
+    window.addEventListener('resize', updateBannerAnimation);
+
+    // Simplified scroll logic
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        tl.play();
+      } else {
+        tl.reverse();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    const handleBannerAnimation = () => {
+      if (container && controller) {
+        const activeButton = document.querySelector('button[aria-expanded="true"]');
+        if (activeButton) {
+          const listItem = activeButton.closest('li');
+          if (listItem) {
+            const rect = listItem.getBoundingClientRect();
+            const category = listItem.dataset.category as Category;
+            controller.showDropdown(category, rect);
+          }
+        }
+      }
+      
+      // Update mobile nav position based on banner animation
+      if (mobileNav && banner) {
+        const bannerHeight = banner.getBoundingClientRect().height;
+        const progress = tl.progress();
+        const offset = bannerHeight * progress;
+        document.documentElement.style.setProperty('--banner-height', `${bannerHeight - offset}px`);
+      }
+    };
+
+    // Add animation update callback
+    tl.eventCallback('onUpdate', handleBannerAnimation);
+
+    // Update banner height CSS variable
+    const updateBannerHeight = () => {
+      if (banner) {
+        const height = banner.getBoundingClientRect().height;
+        document.documentElement.style.setProperty('--banner-height', `${height}px`);
+      }
+    };
+
+    // Initial setup and resize handling
+    updateBannerHeight();
+    window.addEventListener('resize', updateBannerHeight);
   };
 
   init();
 </script>
 
 <style>
+  :root {
+    --header-height-desktop: 80px;
+    --header-height-mobile: 56px;
+  }
 
   .header {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 101;
   }
 
   .navbar {
     padding-inline: var(--space-s-m);
     background-color: var(--color-white);
     border-bottom: 1px solid var(--color-gray-200);
+    z-index: 102;
   }
 
   ul {
@@ -113,7 +215,7 @@ const { surface = "white", ...rest } = Astro.props;
 
   .navbar.dark {
     background-color: var(--color-dark-surface);
-    border-color: transparent;
+    border-color: var(--color-purple-600);
     color: var(--color-white);
   }
 
@@ -129,6 +231,31 @@ const { surface = "white", ...rest } = Astro.props;
 
   .logo {
 
+  }
+
+  .mobile-nav {
+    position: fixed;
+    width: 100%;
+    background-color: red;
+    z-index: 99;
+    inset: 0;
+    top: calc(var(--header-height-mobile) + var(--banner-height, 0px));
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .mobile-nav.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  @media (min-width: 811px) {
+    .mobile-nav {
+      top: calc(var(--header-height-desktop) + var(--banner-height, 0px));
+    }
   }
 
   .nav-actions {
@@ -172,7 +299,7 @@ const { surface = "white", ...rest } = Astro.props;
     .navbar-wrapper {
       justify-content: space-between;
       height: 56px;
-      gap: 0;
+      gap: var(--space-xs);
     }
 
     .nav-actions {
@@ -182,6 +309,11 @@ const { surface = "white", ...rest } = Astro.props;
     .desktop-nav {
       display: none;
     }
+
+    .active {
+      display: block;
+    }
+
 
   }
 </style>

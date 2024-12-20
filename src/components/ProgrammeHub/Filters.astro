@@ -14,7 +14,6 @@
 <style>
   .filters {
     display: flex;
-    background-color: var(--color-purple-800);
     gap: var(--space-xs);
     justify-content: space-between;
     align-items: center;
@@ -30,20 +29,26 @@
   }
 
   .filter {
-    font-size: var(--font-size-sm);
-    border: 1px solid var(--color-purple-700);
-    padding: var(--space-3xs) var(--space-2xs);
+    font-size: var(--font-size-xs);
+    height: var(--size-button-m);
+    display: flex;
+    align-items: center;
+    padding-inline: var(--space-xs);
     border-radius: 100px;
   }
 
   .filter:hover {
     cursor: pointer;
-    border: 1px solid var(--color-purple-500);
+    background-color: var(--color-purple-600);
   }
 
   .filter-active {
-    background-color: var(--color-purple-500);
-    border-color: var(--color-purple-500);
+    background-color: var(--color-white);
+    color: var(--color-purple-700);
+  }
+
+  .filter-active:hover {
+    background-color: var(--color-white);
   }
 
 </style>

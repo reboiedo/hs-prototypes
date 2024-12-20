@@ -11,18 +11,15 @@ import { Icon } from "astro-icon/components";
       <p class="body-md color-purple-200">This is where machines meet humans, and vice versa. Good interaction design of our digital surroundings is imperative to their functionality. The department of Interaction Design is led by internationally renowned creative UXD duo Irene Pereyra and Anton Repponen.</p>
     </div>
 
-    <div class="asset">
-      
-      <!-- <Icon name="badge--dm" size={`100%`}/> -->
-      <!-- <LottieAnimation src="src/assets/DM-P600.json" autoplay="visible" player="full" loop/> -->
-    </div>
+    <Icon name="badge--dm-600" class="icon" size="100%"/>
 
   </div>
 </section>
 
 <style>
  .hero-section {
-     padding-block: var(--space-2xl);
+  padding-top: var(--space-3xl);
+     padding-bottom: var(--space-2xl);
     /* border-bottom: 1px solid var(--color-purple-700);
     background-image:  url('../../assets/pattern-dark-new.svg');
     background-position: center;
@@ -40,38 +37,12 @@ import { Icon } from "astro-icon/components";
     max-width: 1824px;
     margin: auto;
     align-items: center;
-    
-
-    @media screen and (max-width: 810px) {
-      flex-direction: column;
-    }
-
-    /* @media screen and (max-width: 1200px) {
-      flex-direction: row-reverse;
-    } */
   }
   
-  .asset {
-    /* background-color: var(--color-purple-700); */
-    height: var(--space-5xl);
-    min-width: var(--space-5xl);
-    /* padding: var(--space-xl); */
-    /* border-radius: 50%; */
-    background-color: var(--color-purple-800);
-    /* border: 1px solid var(--color-purple-700); */
-    margin: auto;
-
-    background-image: url('../../icons/badge--dm-600.svg');
-    background-size: contain;
-
-
-
-    @media screen and (max-width: 810px) {
-      display: none;
-    }
-
-
-    
+  .icon {
+    width: var(--space-5xl);
+    padding: 0;
+    margin: 0;
   }
 
 
@@ -88,8 +59,22 @@ import { Icon } from "astro-icon/components";
   }
 
   @media screen and (max-width: 810px) {
+
+    .container-row {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+
     .hero-section {
-      margin-top: 64px;
+      margin-top: 96px;
+    }
+
+    .icon {
+      width: 88px;
+      height: 88px;
+      position: absolute;
+      right: 20px;
+      top: 96px;
     }
   }
 

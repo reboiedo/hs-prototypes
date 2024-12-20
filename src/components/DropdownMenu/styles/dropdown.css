@@ -60,3 +60,14 @@
 }
 
 /* ...rest of existing dropdown styles... */
+
+.mobile-nav {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-nav.active {
+  opacity: 1;
+  pointer-events: auto;
+}
