@@ -33,7 +33,7 @@ const { title, duration, description, campus } = data;
         </div>
 
       </div>
-        <p class="body-md">{description}</p>
+        <p class="body-md description">{description}</p>
     </div>
 
       <div class="col-2">
@@ -90,6 +90,11 @@ const { title, duration, description, campus } = data;
     .span-strong {
       color: var(--color-purple-200);
     }
+  }
+
+  .description {
+    max-width: 40ch;
+    text-wrap: pretty;
   }
 
   .left {
