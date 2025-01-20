@@ -16,11 +16,6 @@ export const navigationData: Category[] = [
     title: "Studies",
     items: [
       {
-        title: "Foundation Year",
-        href: "/studies/foundation-year",
-        category: "Modes of Study",
-      },
-      {
         title: "Bachelors",
         href: "/studies/bachelors",
         category: "Modes of Study",
@@ -31,12 +26,17 @@ export const navigationData: Category[] = [
         category: "Modes of Study",
       },
       {
-        title: "Open University",
+        title: "Single Courses",
         href: "/studies/open-university",
         category: "Modes of Study",
       },
       {
-        title: "Summer School",
+        title: "Foundation Year",
+        href: "/studies/foundation-year",
+        category: "Modes of Study",
+      },
+      {
+        title: "Entry Exam Preparation",
         href: "/studies/summer-school",
         category: "Modes of Study",
       },
