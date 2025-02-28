@@ -120,12 +120,12 @@ export const navigationData: Category[] = [
       {
         title: "Sobre Nosotros",
         href: "#",
-        category: "Download Brochure",
+        category: "Español / Català",
       },
       {
         title: "Sobre Nosaltres",
         href: "#",
-        category: "Download Brochure",
+        category: "Español / Català",
       },
     ],
   },

@@ -3,12 +3,11 @@ import { degreeData } from './constants/degreeData';
 import type { DegreeType } from './types';
 import type { CampusFilter as CampusFilterType } from './types';
 import TabButton from './TabButton.astro';
-import CampusFilter from './CampusFilter.astro';
 import DegreeCard from './DegreeCard.astro';
 import SelectFilter from './SelectFilter.astro';
 import type { SelectOption } from './SelectFilter.astro';
 
-const degreeTypes: DegreeType[] = ["Bachelor", "Master", "ContinuedStudies"];
+const degreeTypes: DegreeType[] = ["Bachelor", "Master", "PartMaster", "ContinuedStudies",];
 const campusOptions: CampusFilterType[] = ["All", "Barcelona", "Bangkok"];
 const categories = ["Technology", "Creative", "All Programmes"] as const;
 
@@ -16,7 +15,8 @@ const categories = ["Technology", "Creative", "All Programmes"] as const;
 const degreeTypeDisplayNames: Record<DegreeType, string> = {
   Bachelor: "Bachelor",
   Master: "Master",
-  ContinuedStudies: "Continued Studies"
+  ContinuedStudies: "Continued Studies",
+  PartMaster: "Part-time Master"
 };
 
 // Campus display names
@@ -335,4 +335,4 @@ function groupByCategory(degrees: typeof degreeData[DegreeType]) {
     
 
   }
-</style> 
+</style>

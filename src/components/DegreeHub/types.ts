@@ -1,4 +1,8 @@
-export type DegreeType = "Master" | "Bachelor" | "ContinuedStudies";
+export type DegreeType =
+  | "Master"
+  | "PartMaster"
+  | "Bachelor"
+  | "ContinuedStudies";
 export type CampusFilter = "All" | Campus;
 export type Campus = "Barcelona" | "Bangkok";
 

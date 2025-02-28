@@ -1,0 +1,42 @@
+---
+import type { CurriculumSection as SectionType } from './data/curriculumData';
+import CourseAccordion from './CourseAccordion.astro';
+
+interface Props {
+  section: SectionType;
+}
+
+const { section } = Astro.props;
+---
+
+<section>
+  <div class="container">
+    <div class="section-intro">
+      <h2 class="headline-4xl">{section.title}</h2>
+      <p class="body-md">{section.intro}</p>
+    </div>
+    <div class="courses-list">
+      {section.courses.map(course => (
+        <CourseAccordion course={course} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    padding: 0 var(--space-s-m);
+  }
+  .container {
+    max-width: 1824px;
+    margin: 0 auto;
+    padding: var(--space-xl) 0;
+    display: flex;
+    gap: var(--space-xl);
+    flex-direction: column;
+  }
+  .courses-list {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

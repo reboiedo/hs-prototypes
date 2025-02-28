@@ -1,4 +1,4 @@
-import type { Campus } from "../types";
+import type { Campus, DegreeType } from "../types";
 import { degreeMetadata } from "./degreeMetadata";
 
 export interface Degree {
@@ -12,11 +12,13 @@ export interface Degree {
 
 export interface DegreeCollection {
   Master: Degree[];
+  PartMaster: Degree[];
   Bachelor: Degree[];
   ContinuedStudies: Degree[];
 }
 
-export const degreeData: DegreeCollection = {
+// Ensure DegreeType includes PartMaster
+export const degreeData: Record<DegreeType, Degree[]> = {
   Master: [
     {
       id: "applied-computer-and-data-science-master",
@@ -115,6 +117,17 @@ export const degreeData: DegreeCollection = {
       icon: degreeMetadata["product-management"].icon,
       campuses: ["Barcelona"],
     },
+  ],
+  PartMaster: [
+    {
+      id: "computer-science-part-master",
+      name: "Part-time Computer Science",
+      description: degreeMetadata["computer-science"].description,
+      category: "Technology",
+      icon: degreeMetadata["computer-science"].icon,
+      campuses: ["Barcelona"],
+    },
+    // Add more PartMaster degrees as needed
   ],
   Bachelor: [
     {
