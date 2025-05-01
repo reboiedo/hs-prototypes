@@ -1,17 +1,21 @@
 ---
-import Details from "./Details.astro";
+import { Icon } from "astro-icon/components";
+
 
 
 ---
 
 <section class="hero-section">
   <div class="container">
-    <!-- <div class="logo"></div> -->
     <div class="text-wrap dynamic-container">
-      <p class="headline-md color-gray-600"><span class="color-purple-700">MASTER</span> > <span class="color-purple-700">BARCELONA</span></p>
-      <h1 class="dynamic-text">Data Science</h1>
-      
+      <!-- <p class="headline-md color-gray-600"><span class="color-purple-700">MASTER</span> > <span class="color-purple-700">BARCELONA</span></p> -->
+      <h1 class="dynamic-text">Interaction Design</h1>
+      <p class="body-lg leading">A full-time Master’s taught by experts in the heart of Barcelona.</p>
+      </div>
     </div>
+    <!-- <div class="icon-wrap">
+      <Icon name="badge-id" class="icon" />
+    </div> -->
   </div>
 </section>
 
@@ -26,7 +30,6 @@ import Details from "./Details.astro";
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    padding-block: var(--space-l);
     /* border-bottom: 4px solid var(--color-black); */
     
   }
@@ -39,18 +42,26 @@ import Details from "./Details.astro";
     border-bottom: 2px solid var(--color-black);
   }
 
+  .leading {
+    margin-left: var(--space-2xs);
+    /* white-space: nowrap; */
+  }
+
   .text-wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: var(--space-s);
+    /* gap: var(--space-s); */
   }
 
   .dynamic-container {
     width: 100%;
+    /* flex-grow: 1; */
     display: flex;
-    align-items: start;
-    justify-content: start;
+    padding-block : var(--space-3xl);
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
   }
 
   .dynamic-text {
@@ -59,6 +70,24 @@ import Details from "./Details.astro";
     margin: 0;
     padding: 0;
     color: var(--color-black);
+  }
+
+  .icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 280px;
+    height: 280px;
+    flex-shrink: 0;
+    /* background-color: var(--color-gray-50); */
+    border-radius: 100%;
+    /* border: solid 1px var(--color-gray-200); */
+    padding: var(--space-s);
+  }
+  .icon {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
   }
 
 </style>
