@@ -1,0 +1,115 @@
+---
+import Details from "./Details.astro";
+
+
+---
+
+<section class="hero-section">
+  <div class="container">
+    <!-- <div class="logo"></div> -->
+    <div class="text-wrap dynamic-container">
+      <p class="headline-lg color-gray-600"><span class="color-purple-700">MASTER</span> > <span class="color-purple-700">BARCELONA</span></p>
+      <h1 class="dynamic-text">Computer Science</h1>
+      
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    margin-top: var(--space-3xl);
+    padding: 0 var(--space-m-xl);
+    /* background-color: var(--color-purple-100); */
+  }
+
+  .container {
+    max-width: 1824px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--space-2xl);
+    /* border-bottom: 4px solid var(--color-black); */
+    
+  }
+
+  .details {
+    padding-block: var(--space-s);
+    display: flex;
+    gap: var(--space-xl);
+    border-top: 2px solid var(--color-black);
+    border-bottom: 2px solid var(--color-black);
+  }
+
+  .text-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-s);
+  }
+
+  .dynamic-container {
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+  }
+
+  .dynamic-text {
+    white-space: nowrap;
+    line-height: 0.9;
+    margin: 0;
+    padding: 0;
+    color: var(--color-black);
+  }
+
+</style>
+
+<script>
+  function adjustTextSize() {
+    const containers = document.querySelectorAll('.dynamic-container');
+    const texts = document.querySelectorAll('.dynamic-text');
+
+    containers.forEach((container, index) => {
+      const text = texts[index];
+      if (!text) return;
+
+      // Type assertions for DOM elements
+      const containerElement = container as HTMLElement;
+      const textElement = text as HTMLElement;
+
+      // Get container width
+      const containerWidth = containerElement.offsetWidth;
+      
+      // Reset text size to get natural width
+      textElement.style.fontSize = '100px';
+      const textWidth = textElement.offsetWidth;
+
+      // Calculate new size based on container ratio
+      const fontSize = (containerWidth / textWidth) * 100;
+      
+      // Apply the new size
+      textElement.style.fontSize = `${fontSize}px`;
+    });
+  }
+
+  // Run on load and after a brief delay to ensure proper rendering
+  window.addEventListener('DOMContentLoaded', () => {
+    adjustTextSize();
+    // Run again after a short delay to handle any rendering issues
+    setTimeout(adjustTextSize, 10);
+  });
+
+  // Handle resize with debounce
+  let resizeTimer: ReturnType<typeof setTimeout>;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(adjustTextSize, 50);
+  });
+
+  // Optional: Handle visibility changes
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      adjustTextSize();
+    }
+  });
+</script>

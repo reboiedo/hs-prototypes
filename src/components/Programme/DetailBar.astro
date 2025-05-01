@@ -1,0 +1,20 @@
+---
+import Details from './Details.astro';
+---
+
+    <div class="details">
+      <Details tag="Location" detail="Barcelona" />
+      <Details tag="Duration" detail="1 Year" />
+      <Details tag="Credits" detail="60 ECTS" />
+      <Details tag="Language" detail="English" />
+      <Details tag="Commitment" detail="Full Time" />
+    </div>
+
+    <style>
+    .details {
+      padding-top: var(--space-s);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-2xl);
+  }
+    </style>

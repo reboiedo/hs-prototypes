@@ -1,0 +1,59 @@
+---
+import SideBarMinimal from "./SideBarMinimal.astro";
+
+
+
+const sections = [
+  { id: "overview", title: "Overview" },
+  { id: "method", title: "Our Method" },
+  { id: "results", title: "Career Results" },
+  { id: "curriculum", title: "Curriculum" },
+  { id: "faculty", title: "Faculty" },
+  { id: "alumni", title: "Alumni" },
+  { id: "modes", title: "Modes of Study" },
+  { id: "campus", title: "Campus" },
+  { id: "pricing", title: "Tuition & Fees" },
+  { id: "process", title: "Admissions" },
+
+
+];
+
+---
+
+<main class="main-section">
+  <div class="container container-main">
+    <SideBarMinimal sections={sections} />
+    <div class="content">
+      <slot/>
+    </div>
+  </div>
+</main>
+
+<style>
+  .main-section {
+    padding: 0 var(--space-m-xl) var(--space-3xl) var(--space-m-xl);
+    background-color: var(--color-white);
+    min-height: 3000px;
+  }
+  
+  .container-main {
+    max-width: 1824px;
+    margin: 0 auto;
+    display: flex;
+    gap: var(--space-m-xl);
+    
+  }
+
+  .content {
+    flex-grow: 1;
+    border-top: 4px solid var(--color-gray-200);
+  }
+
+
+  @media (max-width: 1359px) {
+    .container-main {
+     display: flex; 
+     flex-direction: column;
+    }
+  }
+</style>

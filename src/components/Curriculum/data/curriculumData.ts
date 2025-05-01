@@ -6,6 +6,7 @@ export interface Course {
 
 export interface CurriculumSection {
   title: string;
+  subheader: string;
   intro: string;
   courses: Course[];
 }
@@ -13,8 +14,9 @@ export interface CurriculumSection {
 export const curriculumData: CurriculumSection[] = [
   {
     title: "INTRO",
+    subheader: "Students must take this course",
     intro:
-      "Core courses are grouped into modules which are key to developing a student's critical competency for nearly any type of design practice they wish to pursue.",
+      "<strong>This course is mandatory for all students.</strong> Core courses are grouped into modules which are key to developing a student's critical competency for nearly any type of design practice they wish to pursue.",
     courses: [
       {
         title: "Design Fundamentals",
@@ -26,8 +28,9 @@ export const curriculumData: CurriculumSection[] = [
   },
   {
     title: "CORE",
+    subheader: "Students must take all courses",
     intro:
-      "Core courses are grouped into modules which are key to developing a student's critical competency for nearly any type of design practice they wish to pursue. The modules include courses to deeply understand complex challenges, to creatively explore options, and to develop impactful and resilient solutions.",
+      "<strong>All Core courses are mandatory.</strong> Core courses are grouped into modules which are key to developing a student's critical competency for nearly any type of design practice they wish to pursue. The modules include courses to deeply understand complex challenges, to creatively explore options, and to develop impactful and resilient solutions.",
     courses: [
       {
         title: "User-Centered Design",
@@ -69,8 +72,9 @@ export const curriculumData: CurriculumSection[] = [
   },
   {
     title: "SPECIALIZATION",
+    subheader: "Students must take at least 6 of these courses",
     intro:
-      "Concentration course modules are focused on hard skills and oriented towards specific design practice roles like Design Research, Product-Service Delivery, Innovation Strategy, and Product Management.",
+      "<strong>Students must complete at least 5 Specialization courses.</strong> Concentration course modules are focused on hard skills and oriented towards specific design practice roles like Design Research, Product-Service Delivery, Innovation Strategy, and Product Management.",
     courses: [
       {
         title: "Advanced UX Research",
@@ -166,8 +170,9 @@ export const curriculumData: CurriculumSection[] = [
   },
   {
     title: "EXPLORATION",
+    subheader: "Students can choose any of these courses",
     intro:
-      "Transversal course modules are for students to explore other areas of study that Harbour.Space university offers. If a student collects 20 ECTS in a single area they will earn a Minor Degree.",
+      "<strong>These courses are optional and can be taken with remaining free credits.</strong> Transversal course modules are for students to explore other areas of study that Harbour.Space university offers. If a student collects 20 ECTS in a single area they will earn a Minor Degree.",
     courses: [
       {
         title: "Emerging Technologies",

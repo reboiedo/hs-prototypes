@@ -1,0 +1,40 @@
+---
+import { topProgrammeData, type TopDataItem } from './data/topProgrammeData';
+
+interface Props {
+  programmeSlug?: string;
+  columns?: number;
+}
+
+const { 
+  programmeSlug = "interaction-design",
+  columns = 4 
+} = Astro.props;
+
+// Get data for the specified programme or use the first one as default
+const programmeData: TopDataItem[] = topProgrammeData[programmeSlug] || 
+  Object.values(topProgrammeData)[0];
+---
+
+<div class="data-table" style={`grid-template-columns: repeat(${columns}, 1fr);`}>
+  {programmeData.map((item) => (
+    <div class="cell">
+      <h3 class="body-sm">{item.label}</h3>
+      <p class="headline-md">{item.value}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .data-table {
+    display: grid;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding-bottom: var(--space-m);
+  }
+</style>

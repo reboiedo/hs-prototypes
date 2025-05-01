@@ -1,0 +1,28 @@
+---
+const { tag, detail} = Astro.props;
+---
+
+<div class="details">
+  <p class="body-sm tag">
+    {tag}
+  </p>
+  <p class="headline-md detail">
+    {detail}
+  </p>
+</div>
+
+<style>
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .tag {
+    color: var(--color-gray-500);
+  }
+
+  .detail {
+    color: var(--color-black);
+  }
+</style>

@@ -1,0 +1,84 @@
+---
+import Bar from "../components/DropdownMenu/components/Bar.astro";
+import Layout from "../layouts/Layout.astro";
+import Main from "../components/Programme/Main.astro";
+import Section from "../components/Programme/Section.astro";
+import Overview from "../components/Programme/Overview.astro";
+import CardsPlaceholder from "../components/Programme/CardsPlaceholder.astro";
+import Hero from "../components/Programme/Hero.astro";
+
+
+
+---
+
+<Layout>
+  <Bar surface="white"/>
+  <Hero/>
+  <Main>
+    <Overview/>
+    <Section
+      title="Career Results"
+
+      subtitle="Global roles. Competitive pay. Real outcomes"
+
+      intro="Our programmes are designed to launch you into real careers with strong starting salaries, internationally relevant skills, and a diploma that’s trusted by employers around the world."
+    >
+
+    <Section
+    title="How You Learn"
+
+    subtitle="Built for the real world."
+
+    intro="At Harbour.Space, education meets industry. Our learning model reflects the pace, diversity, and collaboration of modern teams—blending disciplines, breaking silos, and preparing you to thrive in fast-moving environments."
+  >
+
+    </Section>
+    <Section
+      title="The Curriculum"
+      subtitle="Future-ready, flexible, and fast-paced."
+      intro="Our curriculum is designed to keep up with the industries we serve. It’s structured for depth, built for speed, and constantly evolving—so you graduate with relevant skills, not outdated theory."
+    >
+      <CardsPlaceholder />
+    </Section>
+  </Main>
+</Layout>
+
+
+<style>
+
+  body {
+    /* background-color: var(--color-purple-700); */
+  }
+
+  .hero-section {
+    margin-top: var(--space-3xl);
+    padding: var(--space-3xl) var(--space-m-4xl);
+  }
+
+  
+  .container {
+    max-width: 1824px;
+    margin: 0 auto;
+    display: flex;
+    gap: var(--space-xl);
+    flex-direction: column;
+  }
+
+  .main-section {
+    padding: var(--space-3xl) var(--space-m-4xl);
+    background-color: var(--color-gray-100);
+    min-height: 3000px;
+  }
+
+
+  .container-main {
+    display: flex;
+    gap: var(--space-2xl);
+    flex-direction: row;
+    /* background-color: var(--color-purple-600); */
+
+  }
+
+
+</style>
+

@@ -114,6 +114,9 @@
   --space-xl-3xl: clamp(2.5rem, 0.96rem + 5.8667vw, 8rem);
   --space-m-3xl: clamp(1.5rem, -0.32rem + 6.9333vw, 8rem);
   --space-gap: clamp(2.125rem, -13.0192rem + 20.1923vw, 10rem);
+  --space-s-2xl: clamp(1rem, -0.4957rem + 5.698vw, 6rem);
+  --space-m-4xl: clamp(1.5rem, -0.7436rem + 8.547vw, 9rem);
+  --space-m-xl: clamp(1.5rem, 0.453rem + 3.9886vw, 5rem);
 
   /* Heights */
   --size-button-s: clamp(2rem, 1.8504rem + 0.5698vw, 2.5rem);
@@ -234,7 +237,14 @@ body {
     font-weight: var(--font-light);
     font-size: var(--font-size-2xl);
     line-height: var(--leading-normal);
-    letter-spacing: var(--tracking-widest);
+    letter-spacing: var(--tracking-normal);
+  }
+
+  .body-3xl {
+    font-weight: var(--font-light);
+    font-size: var(--font-size-3xl);
+    line-height: var(--leading-normal);
+    letter-spacing: var(--tracking-normal);
   }
 
   .headline-2xs {

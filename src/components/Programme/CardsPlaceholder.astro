@@ -1,0 +1,60 @@
+---
+interface Props {
+  columns?: number;
+  gap?: string;
+}
+
+const { 
+  columns = 2, 
+  gap = 'var(--space-2xs)' 
+} = Astro.props;
+---
+
+<div class="cards-container">
+  <div class="card-row">
+    <div class="card single-col"></div>
+    <div class="card single-col"></div>
+  </div>
+  <div class="card-row">
+    <div class="card double-col"></div>
+  </div>
+</div>
+
+<style define:vars={{ gap, columns }}>
+  .cards-container {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    width: 100%;
+  }
+  
+  .card-row {
+    display: flex;
+    gap: var(--gap);
+    width: 100%;
+  }
+  
+  .card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 8px;
+    min-height: 200px;
+  }
+  
+  .single-col {
+    flex: 1;
+  }
+  
+  .double-col {
+    flex: 1;
+    min-height: 300px;
+  }
+  
+  @container (inline-size < 768px) {
+    .card-row {
+      flex-direction: column;
+    }
+  }
+</style>
+

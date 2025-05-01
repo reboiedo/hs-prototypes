@@ -1,0 +1,212 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Sidebar from "../components/Programme/Sidebar.astro";
+import Eyebrow from "../components/Programme/Eyebrow.astro";
+import KeyDetails from "../components/Programme/KeyDetails.astro";
+import Bar from "../components/DropdownMenu/components/Bar.astro";
+import TopData from "../components/Programme/TopData.astro";
+
+// Define the sections that will appear in the sidebar
+const programSections = [
+  { id: "overview", title: "Overview" },
+  { id: "method", title: "Our Method" },
+  { id: "results", title: "Career Results" },
+  { id: "curriculum", title: "Curriculum" },
+  { id: "faculty", title: "Faculty" },
+  { id: "alumni", title: "Alumni" },
+  { id: "modes", title: "Two modes of study" },
+  { id: "campus", title: "Campus" },
+  { id: "pricing", title: "Tuition & Fees" },
+  { id: "process", title: "How to Apply" },
+  // You can add more sections as you build them
+  // { id: "intro", title: "Introduction" },
+  // { id: "core-courses", title: "Core Courses" },
+];
+---
+
+<Layout>
+  <Bar surface="white"/>
+  <section class="hero-section">
+    <div class="container hero-container">
+      <h1 class="headline-4xl">Interaction Design</h1>
+      <div class="placeholder"></div>
+    </div>
+  </section>
+  <main class="section-main">
+    <div class="container sidebar-container">
+      <Sidebar sections={programSections} />
+      <div class="main">
+        <section id="overview" class="section-content">
+          <TopData/>
+          <p class="body-2xl">Master the art of designing stunning and functional websites by striking the perfect balance between creativity and user experience.</p>
+          <p class="body-md">Starting a web design project can feel overwhelming, with countless  elements to consider. But with a clear, structured approach, you can  create websites that are not only visually captivating but also  functional and accessible. Louis Paquet, a seasoned digital creative  director with over 15 years of experience, will guide you through the  fundamentals of interactive web design. Louis, who has worked with top  global agencies and earned over 50 'Site of the Day' awards on Awwwards, shares his expertise in this course.</p>
+            <div class="extra-cards">
+              <div class="extra-card">
+                <h3 class="headline-md">Start Date</h3>
+                <p class="body-sm">We welcome you to start your transformative journey with us, no matter the season. With year-round admissions, you can join our Barcelona intake every three weeks Choose the timing that works best for you!</p>
+              </div>
+              <div class="extra-card">
+                <h3 class="headline-md">Accreditation</h3>
+                <p class="body-sm">Students enrolled in Master's programmes at Harbour.Space Institute have the opportunity to receive an accredited degree from the University of  the Thai Chamber of Commerce (UTCC) in Bangkok, Thailand.</p>
+              </div>
+            </div>
+        </section>
+        <section id="method" class="section-content">
+          <Eyebrow eyebrow="Our Method" />
+          <div class="section-intro">
+            <h2 class="headline-2xl">We're not a traditional University</h2>
+            <p class="body-md">Designed with future leaders in mind, the programme offers a solid  foundation in general management coupled with vital real-world  experiences. Enhance your global perspective through a study term abroad and apply your academic learning during a meaningful internship.  Prepare to distinguish yourself in the competitive global business  landscape.</p>
+          </div>
+          
+          <!-- Method cards grid -->
+          <div class="method-grid">
+            <!-- Row 1: 2 columns -->
+            <div class="method-card card-2col"></div>
+            <div class="method-card card-2col"></div>
+            
+            <!-- Row 2: 3 columns -->
+            <div class="method-card card-3col"></div>
+            <div class="method-card card-3col"></div>
+            <div class="method-card card-3col"></div>
+            
+            <!-- Row 3: 1 full column -->
+            <div class="method-card card-full"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .hero-section {
+    margin-top: var(--space-3xl);
+    padding: var(--space-3xl) var(--space-s-2xl);
+  }
+
+  .section-main {
+    padding: 0 var(--space-s-2xl) var(--space-3xl) var(--space-s-2xl);
+
+  }
+
+  .section-content:first-of-type {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .section-content {
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--space-xl);
+    gap: var(--space-l);
+    border-top: 1px solid var(--color-gray-200);
+  }
+  
+  .section-intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  
+  .container {
+    max-width: 1824px;
+    margin: 0 auto;
+    display: flex;
+    gap: var(--space-xl);
+    flex-direction: column;
+  }
+
+  .hero-container {
+    display: flex;
+    gap: var(--space-xl);
+    flex-direction: row;
+  }
+
+  .placeholder {
+    flex: 1;
+    background-color: var(--color-gray-50);
+    border-radius: var(--radius-m);
+    aspect-ratio: 4 / 3;
+  }
+
+  .sidebar-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .p-2col {
+    column-count: 2;
+    column-gap: var(--space-l);
+    width: 100%;
+    max-width: none;
+  }
+
+  .key-details-wrapper {
+
+  }
+
+  .extra-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-xs);
+  }
+
+  .extra-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    background-color: var(--color-gray-50);
+    padding: var(--space-m);
+    border-radius: var(--radius-m);
+  }
+
+  /* Method grid layout */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(400px, auto);
+    gap: var(--space-xs);
+    width: 100%;
+  }
+  
+  .method-card {
+    background-color: var(--color-gray-50);
+    border-radius: 16px;
+    min-height: 400px;
+  }
+  
+  /* Card size variants */
+  .card-2col {
+    grid-column: span 3;
+  }
+  
+  .card-3col {
+    grid-column: span 2;
+  }
+  
+  .card-full {
+    grid-column: span 6;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .method-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .card-2col, .card-3col, .card-full {
+      grid-column: span 2;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .method-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .card-2col, .card-3col, .card-full {
+      grid-column: span 1;
+    }
+  }
+</style>

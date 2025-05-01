@@ -1,0 +1,174 @@
+---
+import { programmeDetails, type ProgrammeCategory } from './data/programmeDetails';
+
+interface Props {
+  defaultCategory?: string; // Optional: Default selected category
+}
+
+// Set "Full-time Master" as the default category
+const { defaultCategory = "Full-time Master" } = Astro.props;
+
+// Ensure the default category exists in the data, otherwise use the first one
+const initialCategory = programmeDetails.some(cat => cat.title === defaultCategory) 
+  ? defaultCategory 
+  : programmeDetails[0].title;
+---
+
+<div class="programme-details">
+  <!-- Tab Navigation -->
+  <div class="tabs">
+    {programmeDetails.map((category) => (
+      <button 
+        class={`tab-button ${category.title === initialCategory ? 'active' : ''}`}
+        data-category={category.title}
+      >
+        {category.title}
+      </button>
+    ))}
+  </div>
+
+  <!-- Tab Content - Only one is active at a time -->
+  {programmeDetails.map((category) => (
+    <div 
+      class={`tab-content ${category.title === initialCategory ? 'active' : ''}`} 
+      data-category={category.title}
+    >
+      <div class="key-details">
+        {category.details.map((detail) => (
+          <div class="detail-item">
+            {detail.icon && (
+              <div class="icon">
+                <img src={detail.icon} alt="" aria-hidden="true" />
+              </div>
+            )}
+            <div class="content">
+              <h4 class="body-sm">{detail.title}</h4>
+              <p class="headline-md">{detail.value}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  // Tab switching functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category');
+        
+        // Deactivate all tabs first
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Activate only the selected tab
+        button.classList.add('active');
+        document.querySelector(`.tab-content[data-category="${category}"]`)?.classList.add('active');
+      });
+    });
+  });
+</script>
+
+<style>
+  .programme-details {
+    margin-bottom: var(--space-xs);
+  }
+  
+  /* Tab Navigation */
+  .tabs {
+    display: flex;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-m);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+  
+  .tab-button {
+    padding: var(--space-s) var(--space-m);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-bottom: -1px;
+    transition: all 0.2s ease;
+  }
+  
+  .tab-button:hover {
+    color: var(--color-text);
+  }
+  
+  .tab-button.active {
+    color: var(--color-purple-900);
+    border-bottom-color: var(--color-purple-900);
+  }
+  
+  /* Tab Content */
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .key-details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-l);
+    background-color: var(--color-gray-50);
+    padding: var(--space-l);
+    border-radius: var(--radius-m);
+  }
+
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-2xs);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .key-details {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .tabs {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .key-details {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

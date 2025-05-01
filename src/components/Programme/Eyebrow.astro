@@ -1,0 +1,38 @@
+---
+const { eyebrow } = Astro.props;
+---
+
+<div class="eyebrow-container">
+  <span class="circle"></span>
+  <h2 class="headline-xs">{eyebrow}</h2>
+  <span class="line"></span>
+</div>
+
+<style>
+  .eyebrow-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+  
+  .circle {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-purple-900);
+    border-radius: 50%;
+  }
+  
+  h2 {
+    margin: 0;
+  }
+  
+  .line {
+    flex-shrink: 0;
+    min-width: 200px;
+    flex-grow: 1;
+    height: 1px;
+    background-color: var(--color-purple-900);
+  }
+</style>
