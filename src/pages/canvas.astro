@@ -1,0 +1,742 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+
+---
+
+<Layout>
+  <canvas id="myCanvas"></canvas>
+</Layout>
+
+<style>
+  body {
+    background-color: var(--color-purple-700);
+  }
+  canvas {
+    width: 100%;
+    height: 100vh;
+    display: block;
+  }
+</style>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('myCanvas');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    // Configurable variables
+    const squaresPerRow = 8; // Number of squares that fit in the width
+    const separation = 0;   // Separation between squares and margins (in px)
+    let squareSize = 0;     // Will be calculated based on window width
+    
+    // Moving line animation variables
+    const lineLifespan = 6000; // Line lifespan in milliseconds
+    const lineFrequency = 300; // Base frequency for new lines (ms)
+    const minLineSpeed = 60; // Minimum pixels per second
+    const maxLineSpeed = 240; // Maximum pixels per second
+    const maxActiveLines = 10; // Maximum number of active lines
+    
+    // Mouse tracking
+    const mouse = {
+      x: 0,
+      y: 0,
+      prevX: 0,
+      prevY: 0,
+      speed: 0,
+      lastMoveTime: 0,
+      gridNode: null // Closest grid node to mouse position
+    };
+    
+    // Debug mode - set to true to visualize the grid structure
+    const debugMode = false;
+    
+    // Make canvas full screen with proper pixel density
+    const resizeCanvas = () => {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      
+      // Scale the context to counter the pixel density
+      ctx.scale(dpr, dpr);
+      
+      // Recalculate square size
+      const totalSeparation = (squaresPerRow + 1) * separation;
+      squareSize = (window.innerWidth - totalSeparation) / squaresPerRow;
+    };
+    
+    function drawSquareWithLines(ctx, x, y, size) {
+      // Save current styles to restore later
+      const originalStrokeStyle = ctx.strokeStyle;
+      const originalLineWidth = ctx.lineWidth;
+      
+      // Set line style for the rectangle outline
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 1;
+      
+      // Draw the square outline
+      ctx.beginPath();
+      ctx.rect(x, y, size, size);
+      ctx.stroke();
+      
+      // Set line style for the + and x
+      ctx.strokeStyle = '#3c1e75';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'square';
+      
+      // Draw + (plus sign)
+      ctx.beginPath();
+      // Horizontal line
+      ctx.moveTo(x, y + size/2);
+      ctx.lineTo(x + size, y + size/2);
+      // Vertical line
+      ctx.moveTo(x + size/2, y);
+      ctx.lineTo(x + size/2, y + size);
+      ctx.stroke();
+      
+      // Draw X
+      ctx.beginPath();
+      // Diagonal line from top-left to bottom-right
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + size, y + size);
+      // Diagonal line from bottom-left to top-right
+      ctx.moveTo(x, y + size);
+      ctx.lineTo(x + size, y);
+      ctx.stroke();
+      
+      // Restore original style
+      ctx.strokeStyle = originalStrokeStyle;
+      ctx.lineWidth = originalLineWidth;
+    }
+
+    // Draw all squares in a grid
+    function drawSquares() {
+      for (let row = 0; row < squaresPerRow; row++) {
+        const rowSquares = Math.ceil(canvas.width / (squareSize + separation));
+        for (let col = 0; col < rowSquares; col++) {
+          const x = separation + col * (squareSize + separation);
+          const y = separation + row * (squareSize + separation);
+          drawSquareWithLines(ctx, x, y, squareSize);
+        }
+      }
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    
+    // Track all active traveling lines
+    const activeLines = [];
+    
+    // Define grid structure - a network of nodes and connections
+    const grid = {
+      nodes: new Map(), // Map nodes by their string coordinates "x,y"
+      connections: [] // Track all allowable connections between nodes
+    };
+    
+    // Build the grid network of nodes and valid connections
+    function buildGrid() {
+      grid.nodes.clear();
+      grid.connections = [];
+      
+      const rowSquares = Math.ceil(canvas.width / (squareSize + separation));
+      
+      // Generate all grid coordinates including intersections
+      for (let row = 0; row < squaresPerRow; row++) {
+        for (let col = 0; col < rowSquares; col++) {
+          const baseX = separation + col * (squareSize + separation);
+          const baseY = separation + row * (squareSize + separation);
+          
+          // Square corners
+          addGridNode(baseX, baseY); // Top-left
+          addGridNode(baseX + squareSize, baseY); // Top-right
+          addGridNode(baseX, baseY + squareSize); // Bottom-left
+          addGridNode(baseX + squareSize, baseY + squareSize); // Bottom-right
+          
+          // Plus line center
+          const centerX = baseX + squareSize/2;
+          const centerY = baseY + squareSize/2;
+          addGridNode(centerX, centerY); // Center point where plus lines cross
+          
+          // Horizontal edges and intersections
+          addGridNode(baseX, centerY); // Left edge center
+          addGridNode(baseX + squareSize, centerY); // Right edge center
+          
+          // Vertical edges and intersections
+          addGridNode(centerX, baseY); // Top edge center
+          addGridNode(centerX, baseY + squareSize); // Bottom edge center
+          
+          // Connect horizontal lines (including plus)
+          connectNodes(baseX, centerY, centerX, centerY); // Left to center
+          connectNodes(centerX, centerY, baseX + squareSize, centerY); // Center to right
+          
+          // Connect vertical lines (including plus)
+          connectNodes(centerX, baseY, centerX, centerY); // Top to center
+          connectNodes(centerX, centerY, centerX, baseY + squareSize); // Center to bottom
+          
+          // Connect square edges
+          connectNodes(baseX, baseY, baseX + squareSize, baseY); // Top edge
+          connectNodes(baseX + squareSize, baseY, baseX + squareSize, baseY + squareSize); // Right edge
+          connectNodes(baseX, baseY + squareSize, baseX + squareSize, baseY + squareSize); // Bottom edge
+          connectNodes(baseX, baseY, baseX, baseY + squareSize); // Left edge
+          
+          // Connect diagonal lines (X)
+          connectNodes(baseX, baseY, baseX + squareSize, baseY + squareSize); // Top-left to bottom-right
+          connectNodes(baseX, baseY + squareSize, baseX + squareSize, baseY); // Bottom-left to top-right
+        }
+      }
+    }
+    
+    // Add a node to the grid
+    function addGridNode(x, y) {
+      // Round to prevent floating point issues
+      x = Math.round(x * 10) / 10;
+      y = Math.round(y * 10) / 10;
+      
+      const key = `${x},${y}`;
+      if (!grid.nodes.has(key)) {
+        grid.nodes.set(key, { x, y, connections: [] });
+      }
+      return grid.nodes.get(key);
+    }
+    
+    // Connect two nodes to form a valid path
+    function connectNodes(x1, y1, x2, y2) {
+      // Round to prevent floating point issues
+      x1 = Math.round(x1 * 10) / 10;
+      y1 = Math.round(y1 * 10) / 10;
+      x2 = Math.round(x2 * 10) / 10;
+      y2 = Math.round(y2 * 10) / 10;
+      
+      const key1 = `${x1},${y1}`;
+      const key2 = `${x2},${y2}`;
+      
+      if (key1 === key2) return; // Don't connect node to itself
+      
+      const node1 = grid.nodes.get(key1);
+      const node2 = grid.nodes.get(key2);
+      
+      if (node1 && node2) {
+        node1.connections.push(key2);
+        node2.connections.push(key1);
+        grid.connections.push({ from: key1, to: key2 });
+      }
+    }
+    
+    // Create a new traveling line (snake) from a random position
+    function createTravelingLine() {
+      if (activeLines.length >= maxActiveLines) return;
+      if (grid.nodes.size === 0) return;
+      
+      // Get all node keys and pick a random one
+      const nodeKeys = Array.from(grid.nodes.keys());
+      const randomKey = nodeKeys[Math.floor(Math.random() * nodeKeys.length)];
+      const startNode = grid.nodes.get(randomKey);
+      
+      if (!startNode || !startNode.connections.length) return;
+      
+      // Pick a random connection as initial direction
+      const firstConnectionKey = startNode.connections[Math.floor(Math.random() * startNode.connections.length)];
+      const firstConnectionNode = grid.nodes.get(firstConnectionKey);
+      
+      if (!firstConnectionNode) return;
+      
+      // Base speed on a fixed value
+      const speed = minLineSpeed + (Math.random() * (maxLineSpeed - minLineSpeed));
+      
+      activeLines.push({
+        // Node tracking
+        currentNodeKey: randomKey,
+        previousNodeKey: null,
+        targetNodeKey: firstConnectionKey,
+        
+        // Position tracking
+        startPoint: { x: startNode.x, y: startNode.y },
+        currentPoint: { x: startNode.x, y: startNode.y },
+        targetPoint: { x: firstConnectionNode.x, y: firstConnectionNode.y },
+        
+        // Animation properties
+        speed: speed,
+        progress: 0,
+        startTime: Date.now(),
+        
+        // Path tracking 
+        visited: new Set([randomKey]), // Track visited nodes
+        pathHistory: [], // Will contain node keys in traversal order
+        
+        // Visual properties
+        color: `rgba(255, 0, 0, 1)`, // Start with red
+        
+        // Track all segments for smooth animation
+        segments: []
+      });
+    }
+    
+    // Create a new traveling line starting from the mouse position
+    function createTravelingLineFromMouse() {
+      if (activeLines.length >= maxActiveLines) return;
+      if (grid.nodes.size === 0 || !mouse.gridNode) return;
+      
+      const startNodeKey = mouse.gridNode.key;
+      const startNode = grid.nodes.get(startNodeKey);
+      
+      if (!startNode || !startNode.connections.length) return;
+      
+      // Pick a random connection as initial direction
+      const firstConnectionKey = startNode.connections[Math.floor(Math.random() * startNode.connections.length)];
+      const firstConnectionNode = grid.nodes.get(firstConnectionKey);
+      
+      if (!firstConnectionNode) return;
+      
+      // Speed based on mouse movement (clamped to min/max)
+      const speed = Math.max(minLineSpeed, Math.min(maxLineSpeed, mouse.speed));
+      
+      activeLines.push({
+        // Node tracking
+        currentNodeKey: startNodeKey,
+        previousNodeKey: null,
+        targetNodeKey: firstConnectionKey,
+        
+        // Position tracking
+        startPoint: { x: startNode.x, y: startNode.y },
+        currentPoint: { x: startNode.x, y: startNode.y },
+        targetPoint: { x: firstConnectionNode.x, y: firstConnectionNode.y },
+        
+        // Animation properties
+        speed: speed,
+        progress: 0,
+        startTime: Date.now(),
+        
+        // Path tracking 
+        visited: new Set([startNodeKey]), // Track visited nodes
+        pathHistory: [], // Will contain node keys in traversal order
+        
+        // Visual properties
+        color: `rgba(255, 0, 0, 1)`, // Start with red
+        
+        // Track all segments for smooth animation
+        segments: []
+      });
+    }
+    
+    function updateTravelingLines() {
+      const now = Date.now();
+      
+      // Remove expired lines
+      for (let i = activeLines.length - 1; i >= 0; i--) {
+        const line = activeLines[i];
+        if (now - line.startTime > lineLifespan) {
+          activeLines.splice(i, 1);
+        }
+      }
+      
+      activeLines.forEach(line => {
+        const elapsedMs = now - line.startTime;
+        
+        // Calculate overall line progress for fade-in/out effect
+        const lifeProgress = elapsedMs / lineLifespan;
+        
+        // Fade in and out
+        const alpha = lifeProgress < 0.2 ? lifeProgress / 0.2 : 
+                     lifeProgress > 0.8 ? (1 - lifeProgress) / 0.2 : 1;
+        line.color = `rgba(255, 0, 0, ${alpha})`;
+        
+        // Calculate segment progress
+        const distanceToTarget = Math.sqrt(
+          Math.pow(line.targetPoint.x - line.currentPoint.x, 2) + 
+          Math.pow(line.targetPoint.y - line.currentPoint.y, 2)
+        );
+        
+        // Update position based on elapsed time
+        const deltaTime = 16; // Approximate ms per frame at 60fps
+        const step = (line.speed / 1000) * deltaTime;
+        const progressIncrement = step / distanceToTarget;
+        
+        // Update progress and position
+        line.progress += progressIncrement;
+        
+        // Update current point based on progress
+        if (line.progress < 1) {
+          // Smooth interpolation between current and target
+          line.currentPoint.x = line.startPoint.x + (line.targetPoint.x - line.startPoint.x) * line.progress;
+          line.currentPoint.y = line.startPoint.y + (line.targetPoint.y - line.startPoint.y) * line.progress;
+        } else {
+          // Reached target, pick a new target
+          line.startPoint = { x: line.targetPoint.x, y: line.targetPoint.y };
+          line.currentPoint = { x: line.targetPoint.x, y: line.targetPoint.y };
+          
+          // Update path history
+          if (line.previousNodeKey) {
+            // If already has history, add current node to the path
+            line.pathHistory.push(line.currentNodeKey);
+          } else {
+            // First node reached, initialize path history
+            line.pathHistory = [line.currentNodeKey];
+          }
+          
+          line.previousNodeKey = line.currentNodeKey;
+          line.currentNodeKey = line.targetNodeKey;
+          line.progress = 0;
+          
+          const currentNode = grid.nodes.get(line.currentNodeKey);
+          if (!currentNode || !currentNode.connections.length) return;
+          
+          // Get available connections that haven't been visited recently
+          const availableConnections = currentNode.connections.filter(
+            key => key !== line.previousNodeKey && !line.visited.has(key)
+          );
+          
+          // If no unvisited connections, allow revisiting but not immediate backtracking
+          const nextConnections = availableConnections.length ? 
+            availableConnections : 
+            currentNode.connections.filter(key => key !== line.previousNodeKey);
+          
+          if (nextConnections.length === 0) return;
+          
+          // Pick a random direction at the intersection
+          const nextNodeKey = nextConnections[Math.floor(Math.random() * nextConnections.length)];
+          const nextNode = grid.nodes.get(nextNodeKey);
+          
+          if (!nextNode) return;
+          
+          line.targetNodeKey = nextNodeKey;
+          line.targetPoint = { x: nextNode.x, y: nextNode.y };
+          
+          // Track this node as visited to avoid immediate revisit
+          line.visited.add(nextNodeKey);
+          
+          // Limit visited history to prevent getting stuck
+          if (line.visited.size > 20) {
+            const oldestKey = Array.from(line.visited)[0];
+            line.visited.delete(oldestKey);
+          }
+        }
+      });
+    }
+    
+    // Draw active traveling lines as continuous snakes
+    function drawTravelingLines() {
+      activeLines.forEach(line => {
+        // Fixed snake length (in pixels)
+        const snakeLength = squareSize * 2.5;
+        
+        // Store all points along the path in order from newest to oldest (head to tail)
+        const allPoints = [];
+        
+        // Always start with the current head position
+        allPoints.push({
+          x: line.currentPoint.x,
+          y: line.currentPoint.y,
+          from: line.startPoint ? line.startPoint : { x: line.currentPoint.x, y: line.currentPoint.y },
+          progress: line.progress
+        });
+        
+        // Add current node point if we're in the middle of a segment
+        if (line.progress < 1 && line.currentNodeKey) {
+          const currentNode = grid.nodes.get(line.currentNodeKey);
+          if (currentNode) {
+            allPoints.push({
+              x: currentNode.x,
+              y: currentNode.y,
+              key: line.currentNodeKey
+            });
+          }
+        }
+        
+        // Add previous node
+        if (line.previousNodeKey) {
+          const prevNode = grid.nodes.get(line.previousNodeKey);
+          if (prevNode) {
+            allPoints.push({
+              x: prevNode.x,
+              y: prevNode.y,
+              key: line.previousNodeKey
+            });
+          }
+        }
+        
+        // Add all visited nodes from newest to oldest
+        if (line.pathHistory && line.pathHistory.length > 0) {
+          for (let i = 0; i < line.pathHistory.length; i++) {
+            const nodeKey = line.pathHistory[i];
+            const node = grid.nodes.get(nodeKey);
+            if (node) {
+              allPoints.push({
+                x: node.x,
+                y: node.y,
+                key: nodeKey
+              });
+            }
+          }
+        }
+        
+        // Calculate total available path length
+        let totalPathLength = 0;
+        for (let i = 0; i < allPoints.length - 1; i++) {
+          const p1 = allPoints[i];
+          const p2 = allPoints[i + 1];
+          
+          // Special case for the head segment (which may be partial)
+          if (i === 0 && line.progress < 1) {
+            const segLength = Math.sqrt(
+              Math.pow(p2.x - p1.from.x, 2) + Math.pow(p2.y - p1.from.y, 2)
+            ) * line.progress;
+            totalPathLength += segLength;
+          } else {
+            const segLength = Math.sqrt(
+              Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)
+            );
+            totalPathLength += segLength;
+          }
+        }
+        
+        // Determine how much of the path to draw
+        const pathToDraw = Math.min(totalPathLength, snakeLength);
+        
+        // Prepare for drawing with gradient trail effect
+        const gradient = ctx.createLinearGradient(
+          allPoints[0].x, allPoints[0].y,
+          allPoints[Math.min(3, allPoints.length-1)].x, 
+          allPoints[Math.min(3, allPoints.length-1)].y
+        );
+        
+        // Calculate alpha based on lifecycle
+        const elapsedMs = Date.now() - line.startTime;
+        const lifeProgress = elapsedMs / lineLifespan;
+        const alpha = lifeProgress < 0.2 ? lifeProgress / 0.2 : 
+                    lifeProgress > 0.8 ? (1 - lifeProgress) / 0.2 : 1;
+        
+        // Create energy effect with gradient
+        gradient.addColorStop(0, `rgba(255, 60, 0, ${alpha})`); // Bright head
+        gradient.addColorStop(0.3, `rgba(255, 0, 0, ${alpha * 0.8})`); // Main body
+        gradient.addColorStop(1, `rgba(100, 0, 0, ${alpha * 0.5})`); // Fading tail
+        
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 2 + line.speed / 50; // Thicker line for faster snakes
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        // Begin drawing the snake
+        ctx.beginPath();
+        
+        // Start from head position
+        const head = allPoints[0];
+        ctx.moveTo(head.x, head.y);
+        
+        // Track how much of the path we've drawn
+        let lengthDrawn = 0;
+        
+        // Special case for the first segment (current movement)
+        if (allPoints.length > 1 && line.progress < 1) {
+          const nextPoint = allPoints[1];
+          // Trace back from current position to starting node
+          const segLength = Math.sqrt(
+            Math.pow(nextPoint.x - head.from.x, 2) + 
+            Math.pow(nextPoint.y - head.from.y, 2)
+          ) * line.progress;
+          
+          lengthDrawn += segLength;
+        }
+        
+        // Draw full segments until we reach snake length
+        let i = 1;
+        while (i < allPoints.length - 1 && lengthDrawn < pathToDraw) {
+          const current = allPoints[i];
+          const next = allPoints[i + 1];
+          
+          const segLength = Math.sqrt(
+            Math.pow(next.x - current.x, 2) + 
+            Math.pow(next.y - current.y, 2)
+          );
+          
+          if (lengthDrawn + segLength <= pathToDraw) {
+            // Include entire segment
+            ctx.lineTo(next.x, next.y);
+            lengthDrawn += segLength;
+          } else {
+            // Draw partial segment
+            const remaining = pathToDraw - lengthDrawn;
+            const ratio = remaining / segLength;
+            const endX = current.x + (next.x - current.x) * ratio;
+            const endY = current.y + (next.y - current.y) * ratio;
+            ctx.lineTo(endX, endY);
+            break;
+          }
+          
+          i++;
+        }
+        
+        // Draw energy particles around the head
+        if (line.speed > 80) {
+          const energyRadius = line.speed / 20;
+          ctx.save();
+          const glow = ctx.createRadialGradient(
+            head.x, head.y, 0,
+            head.x, head.y, energyRadius * 2
+          );
+          glow.addColorStop(0, `rgba(255, 200, 50, ${alpha * 0.5})`);
+          glow.addColorStop(1, `rgba(255, 100, 0, 0)`);
+          
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(head.x, head.y, energyRadius * 2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+        
+        ctx.stroke();
+      });
+    }
+    
+    // Debug function to visualize the grid (for development - can be removed)
+    function debugDrawGrid() {
+      // Draw all nodes
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+      grid.nodes.forEach((node) => {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      
+      // Draw all connections
+      ctx.strokeStyle = 'rgba(100, 100, 255, 0.3)';
+      ctx.lineWidth = 1;
+      grid.connections.forEach(conn => {
+        const from = conn.from.split(',').map(Number);
+        const to = conn.to.split(',').map(Number);
+        ctx.beginPath();
+        ctx.moveTo(from[0], from[1]);
+        ctx.lineTo(to[0], to[1]);
+        ctx.stroke();
+      });
+    }
+    
+    // Find the closest grid node to a point
+    function findClosestGridNode(x, y) {
+      let closest = null;
+      let minDistance = Infinity;
+      
+      grid.nodes.forEach((node, key) => {
+        const distance = Math.sqrt(Math.pow(node.x - x, 2) + Math.pow(node.y - y, 2));
+        if (distance < minDistance) {
+          minDistance = distance;
+          closest = { key, node };
+        }
+      });
+      
+      return closest;
+    }
+    
+    // Mouse move handler to track speed and position
+    function handleMouseMove(e) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      
+      // Save previous position
+      mouse.prevX = mouse.x;
+      mouse.prevY = mouse.y;
+      
+      // Get current position, adjusting for canvas scaling
+      mouse.x = (e.clientX - rect.left) * scaleX;
+      mouse.y = (e.clientY - rect.top) * scaleY;
+      
+      // Calculate speed (pixels per second)
+      const now = Date.now();
+      const elapsed = now - mouse.lastMoveTime;
+      
+      if (elapsed > 0) {
+        const dx = mouse.x - mouse.prevX;
+        const dy = mouse.y - mouse.prevY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // Convert to pixels per second
+        mouse.speed = distance / (elapsed / 1000);
+        mouse.lastMoveTime = now;
+        
+        // Find closest grid node to mouse position
+        mouse.gridNode = findClosestGridNode(mouse.x, mouse.y);
+      }
+    }
+    
+    // Animation loop
+    let lastLineCreationTime = 0;
+    
+    function animate() {
+      const now = Date.now();
+      
+      // Create new lines based on mouse movement
+      if (mouse.gridNode && mouse.speed > 5) { // Only create rays if mouse is moving
+        // Adjust line creation frequency based on mouse speed
+        const dynamicFrequency = Math.max(50, lineFrequency - (mouse.speed * 2));
+        
+        if (now - lastLineCreationTime > dynamicFrequency) {
+          // Create lines proportional to mouse speed
+          const linesToCreate = Math.min(3, Math.floor(mouse.speed / 100) + 1);
+          
+          for (let i = 0; i < linesToCreate; i++) {
+            if (activeLines.length < maxActiveLines) {
+              createTravelingLineFromMouse();
+              lastLineCreationTime = now;
+            }
+          }
+        }
+      }
+      
+      // Clear and redraw everything
+      clearCanvas();
+      drawSquares();
+      updateTravelingLines();
+      drawTravelingLines();
+      
+      // Visualize grid structure when debug mode is enabled
+      if (debugMode) {
+        debugDrawGrid();
+        
+        // Debug: visualize mouse tracking
+        if (mouse.gridNode) {
+          ctx.fillStyle = 'rgba(255, 255, 0, 0.5)';
+          ctx.beginPath();
+          ctx.arc(mouse.gridNode.node.x, mouse.gridNode.node.y, 5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      requestAnimationFrame(animate);
+    }
+
+    // Initialize canvas and draw
+    resizeCanvas();
+    clearCanvas();
+    buildGrid();
+    drawSquares();
+    
+    // Add mouse event listeners
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('touchmove', (e) => {
+      // Handle touch events as mouse events
+      e.preventDefault();
+      const touch = e.touches[0];
+      if (touch) {
+        const mouseEvent = new MouseEvent('mousemove', {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        handleMouseMove(mouseEvent);
+      }
+    });
+    
+    // Start animation
+    animate();
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      clearCanvas();
+      buildGrid();
+      drawSquares();
+    });
+  });
+</script>

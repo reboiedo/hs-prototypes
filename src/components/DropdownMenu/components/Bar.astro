@@ -9,16 +9,18 @@ import { navigationData } from "../constants/navigationData";
 import "../styles/dropdown.css";
 import Banner from "./Banner.astro";
 import MenuButton from "./MenuButton.astro";
+import { DropdownController } from "../controllers/DropdownController";
 
 
 interface Props {
   surface?: "white" | "dark";
+  fixed?: boolean;  // Control whether header uses fixed positioning
 }
 
-const { surface = "white", ...rest } = Astro.props;
+const { surface = "white", fixed = true, ...rest } = Astro.props;
 ---
 
-<header class="header">
+<header class:list={["header", { relative: !fixed }]}>
   <Banner message="Women in Tech: Save up to 50% on Tuition" cta="Learn More" ctaHref="#"></Banner>
   <div class:list={["navbar", surface]} {...rest}>
     <div class="navbar-wrapper">
@@ -82,7 +84,12 @@ const { surface = "white", ...rest } = Astro.props;
     let controller: DropdownController;
     
     if (container && navList) {
-      controller = new DropdownController(container);
+      // Get the fixed prop value from the component
+      const headerElement = document.querySelector('.header');
+      const isFixed = headerElement ? !headerElement.classList.contains('relative') : true;
+      
+      // Initialize controller with the fixed setting from props
+      controller = new DropdownController(container, isFixed);
       controller.setupEventListeners(navList);
     }
 
@@ -233,10 +240,15 @@ const { surface = "white", ...rest } = Astro.props;
   }
 
   .header {
-    position: fixed;
+    position: fixed; /* Default position */
     top: 0;
     width: 100%;
     z-index: 101;
+  }
+  
+  /* This class is added dynamically when not using fixed positioning */
+  .header.relative {
+    position: relative;
   }
 
   .navbar {

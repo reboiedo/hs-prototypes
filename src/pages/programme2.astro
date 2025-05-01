@@ -12,7 +12,7 @@ import Hero from "../components/Programme/Hero.astro";
 ---
 
 <Layout>
-  <Bar surface="white"/>
+  <Bar surface="white" fixed={false}/>
   <Hero/>
   <Main>
     <Overview/>
@@ -48,11 +48,6 @@ import Hero from "../components/Programme/Hero.astro";
 
   body {
     /* background-color: var(--color-purple-700); */
-  }
-
-  .hero-section {
-    margin-top: var(--space-3xl);
-    padding: var(--space-3xl) var(--space-m-4xl);
   }
 
   

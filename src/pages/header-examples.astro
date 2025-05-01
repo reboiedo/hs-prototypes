@@ -1,0 +1,103 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Bar from "../components/DropdownMenu/components/Bar.astro";
+---
+
+<Layout>
+  <div class="example-fixed">
+    <Bar surface="white" fixed={true} />
+    <div class="spacer"></div>
+    <section class="hero">
+      <h1>Fixed Header Example</h1>
+      <p>This header is fixed and will stay at the top of the viewport as you scroll.</p>
+      <p>This is the default behavior and works at all screen sizes.</p>
+    </section>
+  </div>
+
+  <div class="example-relative">
+    <Bar surface="dark" fixed={false} />
+    <section class="hero dark">
+      <h1>Non-Fixed Header Example</h1>
+      <p>This header scrolls with the content when the screen is above 1360px wide.</p>
+      <p>Below 1360px, it will automatically switch to fixed positioning.</p>
+    </section>
+  </div>
+
+  <section class="content">
+    <h2>Using the Bar Component</h2>
+    <p>You can control whether the header uses fixed positioning by passing the <code>fixed</code> prop:</p>
+    
+    <pre><code>&lt;Bar surface="white" fixed={true} /&gt; &lt;!-- Always fixed --&gt;
+&lt;Bar surface="dark" fixed={false} /&gt; &lt;!-- Normal scrolling above 1360px --&gt;</code></pre>
+    
+    <p>The <code>fixed</code> prop defaults to <code>true</code> if not provided.</p>
+    
+    <p>Regardless of the setting, headers will always be fixed (sticky) when the viewport is below 1360px wide.</p>
+
+    <div class="scroll-spacer"></div>
+  </section>
+</Layout>
+
+<style>
+  .spacer {
+    height: 80vh;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+  }
+  
+  .example-fixed, .example-relative {
+    position: relative;
+    margin-bottom: 100px;
+  }
+  
+  .hero {
+    min-height: 70vh;
+    padding: 120px 40px 80px;
+    background-color: #f5f5f5;
+  }
+  
+  .hero.dark {
+    background-color: var(--color-dark-surface);
+    color: white;
+  }
+  
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  pre {
+    background: #f0f0f0;
+    padding: 20px;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+  
+  code {
+    font-family: monospace;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    margin: 2rem 0 1rem;
+  }
+  
+  p {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+  
+  .scroll-spacer {
+    height: 100vh;
+  }
+</style>

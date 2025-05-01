@@ -18,8 +18,8 @@ const { sections = [] } = Astro.props;
 
   <div class="start-date">
     <div class="top">
-      <Details tag="Start Date" detail="Aug 16 & Jan 06" />
-      <p class="body-xs color-gray-500">Applications open Year Round</p>
+      <p class="headline-md">Intake every 3 Weeks</p>
+      <p class="body-xs color-purple-500">Applications open Year Round</p>
     </div>
       <nav>
     <ul>
@@ -36,8 +36,8 @@ const { sections = [] } = Astro.props;
   </nav>
     <div class="buttons">
       <Button classList={["primary"]}>Book a Call</Button>
-      <Button>Download Brochure</Button>
       <Button>Apply Now</Button>
+      <Button>Download Brochure</Button>
     </div>
   </div>
 </aside>
@@ -47,12 +47,12 @@ const { sections = [] } = Astro.props;
 
   .start-date {
     position: sticky;
-    top: var(--space-3xl);
+    top: var(--space-s);
     display: flex;
     flex-direction: column;
     /* gap: var(--space-s); */
     /* border-bottom: 2px solid var(--color-black); */
-    padding: var(--space-s);
+    padding: var(--space-m) var(--space-s) var(--space-s) var(--space-s);
     border: solid 1px var(--color-gray-200);
     background-color: var(--color-gray-50);
     border-radius: 8px;

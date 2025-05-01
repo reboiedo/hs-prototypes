@@ -7,18 +7,67 @@ export class DropdownController {
     currentRect: null,
     animationFrame: null,
   };
+  private isFixed: boolean = true; // Default to fixed positioning
+  private breakpoint: number = 1360; // Breakpoint for responsive behavior
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, isFixed: boolean = true) {
     this.container = container;
+    this.isFixed = isFixed;
   }
 
+  /**
+   * Get the vertical offset of the header, accounting for any transforms
+   */
   private getHeaderOffset(): number {
     const header = document.querySelector(".header") as HTMLElement;
     if (!header) return 0;
+
+    // For non-fixed header above breakpoint, there's no need for offset
+    if (window.innerWidth >= this.breakpoint && !this.isFixed) return 0;
+
+    // Otherwise, calculate offset based on transform
     const transform = window.getComputedStyle(header).transform;
     if (transform === "none") return 0;
     const matrix = new DOMMatrix(transform);
     return matrix.m42; // Get Y transform value
+  }
+
+  /**
+   * Set whether the navigation should use fixed positioning
+   * @param value True for fixed positioning, false for normal scrolling
+   */
+  public setFixed(value: boolean): void {
+    if (this.isFixed !== value) {
+      this.isFixed = value;
+      this.updateHeaderPosition();
+    }
+  }
+
+  /**
+   * Get current fixed position setting
+   * @returns Current fixed position setting
+   */
+  public getFixed(): boolean {
+    return this.isFixed;
+  }
+
+  /**
+   * Updates the header positioning based on the isFixed property
+   * and screen width (always fixed below breakpoint)
+   */
+  private updateHeaderPosition(): void {
+    const header = document.querySelector(".header") as HTMLElement;
+    if (!header) return;
+
+    // Always set to fixed if below breakpoint, otherwise use the configured value
+    const shouldBeFixed = window.innerWidth < this.breakpoint || this.isFixed;
+
+    // Apply the appropriate position style via CSS class
+    if (shouldBeFixed) {
+      header.classList.remove("relative");
+    } else {
+      header.classList.add("relative");
+    }
   }
 
   showDropdown(
@@ -135,6 +184,13 @@ export class DropdownController {
       }
     }
   };
+
+  /**
+   * Clean up event listeners and observers
+   */
+  public destroy(): void {
+    // No global event listeners to clean up
+  }
 
   setupEventListeners(navList: HTMLElement): void {
     // Add hover listeners to navigation items
