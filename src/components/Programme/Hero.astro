@@ -1,5 +1,7 @@
 ---
-import { Icon } from "astro-icon/components";
+import Image from "astro/components/Image.astro";
+
+import Badge from "../../assets/badges/badge-adcs--light.svg";
 
 
 
@@ -8,10 +10,13 @@ import { Icon } from "astro-icon/components";
 <section class="hero-section">
   <div class="container">
     <div class="text-wrap dynamic-container">
+      <Image src={Badge} alt="ID badge" class="icon" loading="lazy" />
       <!-- <p class="headline-md color-gray-600"><span class="color-purple-700">MASTER</span> > <span class="color-purple-700">BARCELONA</span></p> -->
-      <h1 class="dynamic-text">Interaction Design</h1>
-      <p class="body-lg leading">A full-time Master’s taught by experts in the heart of Barcelona.</p>
-      </div>
+      <h1 class="headline-3xl">Advanced Data and Computer Science</h1>
+      <p class="body-lg">Master in Barcelona</p>
+      <!-- <p class="body-lg leading">A full-time Master’s taught by experts in the heart of Barcelona.</p> -->
+
+    </div>
     </div>
     <!-- <div class="icon-wrap">
       <Icon name="badge-id" class="icon" />
@@ -58,10 +63,12 @@ import { Icon } from "astro-icon/components";
     width: 100%;
     /* flex-grow: 1; */
     display: flex;
-    padding-block : var(--space-3xl);
+    padding : var(--space-l) 0 var(--space-s) 0;
     align-items: center;
     justify-content: center;
-    gap: var(--space-2xs);
+    text-align: center;
+
+    gap: 0
   }
 
   .dynamic-text {
@@ -85,9 +92,10 @@ import { Icon } from "astro-icon/components";
     padding: var(--space-s);
   }
   .icon {
-    width: 100%;
-    height: 100%;
-    flex-shrink: 0;
+    width: var(--space-3xl);
+    height: var(--space-3xl);
+    margin-bottom: var(--space-xs);
+    /* background-color: var(--color-gray-50); */
   }
 
 </style>

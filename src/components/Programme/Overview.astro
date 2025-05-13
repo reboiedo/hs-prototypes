@@ -1,6 +1,6 @@
 ---
 import {Image} from "astro:assets";
-import OverviewPic from "../../assets/ID-Overview.jpeg";
+import OverviewPic from "../../assets/id-overview-2.png";
 import DetailBar from "./DetailBar.astro";
 ---
 
@@ -31,6 +31,7 @@ import DetailBar from "./DetailBar.astro";
     color: var(--color-gray-700);
     columns: 2;
     column-gap: var(--space-m-xl);
+    text-wrap: pretty;
   }
 
   .container {
@@ -46,8 +47,19 @@ import DetailBar from "./DetailBar.astro";
   }
 
   .placeholder {
-    aspect-ratio: 16/9;
+    aspect-ratio: 2/1;
     height: auto;
+  }
+
+  @media (max-width: 810px) {
+    .container {
+      gap: var(--space-m);
+    }
+
+    .intro {
+      columns: 1;
+      column-gap: 0;
+    }
   }
 
 

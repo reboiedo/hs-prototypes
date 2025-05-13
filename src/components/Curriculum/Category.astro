@@ -1,0 +1,64 @@
+---
+import type { Category } from './data/curriculum';
+import Subcategory from './Subcategory.astro';
+
+interface Props {
+  category: Category;
+
+}
+
+const { category } = Astro.props;
+---
+
+<section class="category-section">
+  <div class="container">
+    <div class="category-header">
+      <div class="sticky">
+        <h2 class="headline-3xl">{category.title}</h2>
+        <p class="body-sm color-gray-500"> Choose from a rotating selection of specialized topics to deepen your interests. Availability may vary year to year.</p>
+      </div>
+    </div>
+    <div class="subcategories">
+      {category.subcategories.map(subcategory => (
+        <Subcategory subcategory={subcategory} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .category-section {
+    padding: 0 var(--space-m-xl);
+    /* margin-bottom: var(--space-3xl); */
+  }
+
+  .container {
+    max-width: 1824px;
+    display: grid;
+    grid-template-columns: 1.3fr 2fr;
+    margin: 0 auto;
+    /* padding: var(--space-xl) 0; */
+    border-top: 2px solid var(--color-gray-200);
+    gap: var(--space-2xl);
+  }
+
+  .category-header {
+    padding: var(--space-xl) 0 var(--space-m) 0;
+    /* color: var(--color-purple-600); */
+    /* border-top: 2px solid var(--color-black); */
+  }
+  
+  .sticky {
+    position: sticky;
+    top: var(--space-3xl);
+    /* text-transform: uppercase; */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    max-width: 460px;;
+  }
+
+  .sticky h2 {
+    text-transform: uppercase;
+  }
+</style>

@@ -1,37 +1,16 @@
 ---
 import Bar from "../components/DropdownMenu/components/Bar.astro";
 import Layout from "../layouts/Layout.astro";
-import CurriculumSection from "../components/Curriculum/CurriculumSection.astro";
-import { curriculumData } from "../components/Curriculum/data/curriculumData";
+import Category from "../components/Curriculum/Category.astro";
+import { curriculumData } from "../components/Curriculum/data/curriculum";
+import Hero from "../components/Curriculum/Hero.astro";
 ---
 
 <Layout>
   <Bar surface="white"/>
-  <section>
-    <div class="container">
-      <h1 class="headline-5xl">
-        <span class="headline-lg">Interaction Design Master</span>
-        </br>
-        Curriculum
-      </h1>
-    </div>
-  </section>
-  
-  {curriculumData.map(section => (
-    <CurriculumSection section={section} />
+  <Hero />
+  {curriculumData.map((category) => (
+    <Category category={category} />
   ))}
 </Layout>
 
-<style>
-  section {
-    padding: 0 var(--space-s-m);
-  }
-  .container {
-    max-width: 1824px;
-    margin: 0 auto;
-    padding: var(--space-xl) 0;
-    display: flex;
-    gap: var(--space-xl);
-    flex-direction: column;
-  }
-</style>

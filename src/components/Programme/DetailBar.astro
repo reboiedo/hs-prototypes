@@ -3,8 +3,8 @@ import Details from './Details.astro';
 ---
 
     <div class="details">
-      <Details tag="Degree" detail="Master" />
-      <Details tag="Location" detail="Barcelona" />
+      <!-- <Details tag="Degree" detail="Master" /> -->
+      <!-- <Details tag="Location" detail="Barcelona" /> -->
       <Details tag="Duration" detail="1 Year" />
       <Details tag="Credits" detail="60 ECTS" />
       <Details tag="Language" detail="English" />
@@ -13,22 +13,25 @@ import Details from './Details.astro';
 
     <style>
     .details {
-      padding-block: var(--space-s);
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      gap: var(--space-2xl);
+      /* padding-block: var(--space-l); */
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       border-top: 1px solid var(--color-gray-200);
-      border-bottom: 1px solid var(--color-gray-200);
+      /* border-bottom: 1px solid var(--color-gray-200); */
       grid-area: detail;
-  }
+    }
+   
+
+  
 
     @media (max-width: 1359px) {
       .details {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: var(--space-xs);
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: var(--space-xs);
+        row-gap: var(--space-l);
         justify-items: center;
       }
+
     }
     </style>
