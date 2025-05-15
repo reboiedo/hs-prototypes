@@ -1,26 +1,26 @@
-<svg width="1300" height="1300" viewBox="0 0 1300 1300" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<circle cx="650" cy="650" r="650" fill="url(#paint0_radial_1006_1591)"/>
-<circle cx="650" cy="650" r="650" fill="url(#pattern0_1006_1591)"/>
+<svg width="1280" height="1280" viewBox="0 0 1280 1280" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<circle cx="640" cy="640" r="640" fill="url(#paint0_radial_1006_1591)"/>
+<circle cx="640" cy="640" r="640" fill="url(#pattern0_1006_1591)"/>
 <defs>
-<radialGradient id="paint0_radial_1006_1591" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(650 650) rotate(90) scale(650)">
+<radialGradient id="paint0_radial_1006_1591" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(640 640) rotate(90) scale(640)">
 <stop stop-color="#FAFAFA"/>
 <stop offset="1" stop-color="white"/>
 </radialGradient>
-<pattern id="pattern0_1006_1591" patternUnits="userSpaceOnUse" viewBox="527 -1427 64 64" width="4.9230769230769234%" height="4.9230769230769234%" patternContentUnits="objectBoundingBox">
+<pattern id="pattern0_1006_1591" patternUnits="userSpaceOnUse" viewBox="190 -202 64 64" width="5%" height="5%" patternContentUnits="objectBoundingBox">
 <g clip-path="url(#clip0_1006_1591)">
-<path d="M591 -1427H527V-1363H591V-1427Z" stroke="white"/>
-<path d="M527 -1395H552.6" stroke="white"/>
-<path d="M565.4 -1395H591" stroke="white"/>
-<path d="M559 -1363V-1388.6" stroke="white"/>
-<path d="M559 -1401.4V-1427" stroke="white"/>
-<path d="M527 -1427L555.8 -1398.2" stroke="white"/>
-<path d="M562.2 -1391.8L591 -1363" stroke="white"/>
-<path d="M527 -1363L555.8 -1391.8" stroke="white"/>
-<path d="M562.2 -1398.2L591 -1427" stroke="white"/>
-<path d="M559 -1401.4L565.4 -1395L559 -1388.6L552.6 -1395L559 -1401.4Z" fill="white" stroke="white"/>
+<path d="M254 -202H190V-138H254V-202Z" stroke="white"/>
+<path d="M190 -170H215.6" stroke="white"/>
+<path d="M228.4 -170H254" stroke="white"/>
+<path d="M222 -138V-163.6" stroke="white"/>
+<path d="M222 -176.4V-202" stroke="white"/>
+<path d="M190 -202L218.8 -173.2" stroke="white"/>
+<path d="M225.2 -166.8L254 -138" stroke="white"/>
+<path d="M190 -138L218.8 -166.8" stroke="white"/>
+<path d="M225.2 -173.2L254 -202" stroke="white"/>
+<path d="M222 -176.4L228.4 -170L222 -163.6L215.6 -170L222 -176.4Z" fill="white" stroke="white"/>
 </g>
 </pattern><clipPath id="clip0_1006_1591">
-<rect width="64" height="64" fill="white" transform="translate(527 -1427)"/>
+<rect width="64" height="64" fill="white" transform="translate(190 -202)"/>
 </clipPath>
 </defs>
 </svg>
