@@ -12,5 +12,132 @@ import Hero from "../components/Curriculum/Hero.astro";
   {curriculumData.map((category) => (
     <Category category={category} />
   ))}
+  <canvas id="trail-canvas" class="trail-canvas"></canvas>
+  <div class="pattern-overlay"></div>
 </Layout>
 
+<style>
+  body {
+    position: relative;
+    background: 
+      linear-gradient(
+        to bottom, 
+        var(--color-white) 0%, 
+        var(--color-white) 50%, 
+        var(--color-white) 100%
+      );
+  }
+
+  .pattern-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 500vh;
+    background: url(../assets/pattern.svg) repeat 0 0 / 128px;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  
+  .trail-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+</style>
+
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('trail-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+    
+    // Setup canvas
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    // Resize canvas to window size
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Target and current positions
+    let mouseX = 0, mouseY = 0;
+    let circleX = window.innerWidth / 2, circleY = window.innerHeight / 2;
+    
+    // Dampening factor - lower = more dampening (smoother, slower)
+    const dampFactor = 0.1; // More dampening
+    
+    // For trail effect
+    let positions: {x: number, y: number, alpha: number}[] = [];
+    const maxTrailLength = 40; // Longer trail
+    
+    // Update target position on mouse move
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    
+    // Animation loop for smooth dampened movement
+    function animate() {
+      // Calculate new position with dampening (LERP - Linear Interpolation)
+      circleX += (mouseX - circleX) * dampFactor;
+      circleY += (mouseY - circleY) * dampFactor;
+      
+      // Add current position to the trail
+      positions.unshift({
+        x: circleX,
+        y: circleY,
+        alpha: 1
+      });
+      
+      // Limit trail length
+      if (positions.length > maxTrailLength) {
+        positions = positions.slice(0, maxTrailLength);
+      }
+      
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw trail
+      drawTrail();
+      
+      // Continue the animation loop
+      requestAnimationFrame(animate);
+    }
+    
+    function drawTrail() {
+      // Fade out each position in the trail
+      for (let i = 0; i < positions.length; i++) {
+        let position = positions[i];
+        position.alpha *= 0.96; // Slower fade for longer lifespan
+        
+        // Much larger size based on position in trail
+        const size = 30 * window.innerWidth / 100 * (1 - i / (positions.length * 1.5));
+        
+        // Draw a circle at each trail position
+        ctx.beginPath();
+        ctx.arc(position.x, position.y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(130, 80, 223, ${position.alpha * 0.04})`;
+        
+        // Add blur effect
+        ctx.shadowColor = 'rgba(130, 80, 223, 0.02)';
+        ctx.shadowBlur = 50;
+        
+        ctx.fill();
+      }
+    }
+    
+    // Start the animation
+    animate();
+  });
+</script> -->
