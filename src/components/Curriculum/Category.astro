@@ -1,13 +1,16 @@
 ---
 import type { Category } from './data/curriculum';
 import Subcategory from './Subcategory.astro';
+import { Image } from 'astro:assets';
+import coreImage from '../../assets/Core.svg';
+import electivesImage from '../../assets/Electives.svg';
 
 interface Props {
   category: Category;
-
 }
 
 const { category } = Astro.props;
+const image = category.title === "Core" ? coreImage : electivesImage;
 ---
 
 <section class="category-section">
@@ -16,6 +19,9 @@ const { category } = Astro.props;
       <div class="sticky">
         <h2 class="headline-3xl">{category.title}</h2>
         <p class="body-sm color-gray-500"> Choose from a rotating selection of specialized topics to deepen your interests. Availability may vary year to year.</p>
+        <div class="image-container">
+          <Image src={image} alt={`${category.title} category illustration`} width={360} class="category-image" />
+        </div>
       </div>
     </div>
     <div class="subcategories">
@@ -37,7 +43,7 @@ const { category } = Astro.props;
     grid-template-columns: 1.3fr 2fr;
     margin: 0 auto;
     padding-block: var(--space-3xl);
-    border-top: 2px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-gray-200);
     gap: var(--space-2xl);
   }
 
@@ -49,7 +55,7 @@ const { category } = Astro.props;
   
   .sticky {
     position: sticky;
-    top: var(--space-3xl);
+    top: var(--space-4xl);
     /* text-transform: uppercase; */
     display: flex;
     flex-direction: column;
@@ -59,5 +65,15 @@ const { category } = Astro.props;
 
   .sticky h2 {
     text-transform: uppercase;
+  }
+
+  .image-container {
+    margin-top: var(--space-m);
+    max-width: 300px;
+  }
+
+  .category-image {
+    width: 180px;
+    height: auto;
   }
 </style>

@@ -11,6 +11,7 @@ const { subcategory } = Astro.props;
 
 <div class="subcategory">
   <div class="subcategory-header">
+    <div class="eyebrow body-xs">{subcategory.eyebrow}</div>
     <h3 class="headline-2xl">{subcategory.title}</h3>
     <p class="body-sm color-gray-700" set:html={subcategory.intro} />
   </div>
@@ -41,8 +42,20 @@ const { subcategory } = Astro.props;
     gap: var(--space-2xs);
   }
 
+  .eyebrow {
+    background-color: var(--color-purple-50);
+    display: flex;
+    align-items: center;
+    color: var(--color-purple-600);
+    padding-inline: var(--space-3xs);
+    border-radius: 4px;
+    height: 32px;
+    width: fit-content;
+  }
+
   .courses-list {
     display: flex;
     flex-direction: column;
   }
+
 </style>

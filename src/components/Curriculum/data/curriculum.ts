@@ -5,6 +5,7 @@ export interface Course {
 }
 
 export interface Subcategory {
+  eyebrow: string;
   title: string;
   subheader: string;
   intro: string;
@@ -22,6 +23,7 @@ export const curriculumData: Category[] = [
     subcategories: [
       {
         title: "Introduction",
+        eyebrow: "Must Take",
         subheader: "Students must take this course",
         intro:
           "<strong>This course is mandatory for all students.</strong> Core courses are grouped into modules which are key to developing a student's critical competency for nearly any type of design practice they wish to pursue.",
@@ -36,6 +38,7 @@ export const curriculumData: Category[] = [
       },
       {
         title: "Major Core",
+        eyebrow: "Must Take all",
         subheader: "Students must take all courses",
         intro:
           "<strong>All Core courses are mandatory.</strong> Core courses are grouped into modules which are key to developing a student's critical competency for nearly any type of design practice they wish to pursue. The modules include courses to deeply understand complex challenges, to creatively explore options, and to develop impactful and resilient solutions.",
@@ -80,6 +83,7 @@ export const curriculumData: Category[] = [
       },
       {
         title: "Capstone",
+        eyebrow: "Choose 1",
         subheader: "Final project",
         intro:
           "<strong>The Capstone project is the culmination of your master's degree.</strong> Working individually or in small teams, students will identify a complex design challenge and develop a comprehensive solution that demonstrates their mastery of design principles, research methods, and technical skills.",
@@ -117,6 +121,7 @@ export const curriculumData: Category[] = [
     subcategories: [
       {
         title: "Major Elective",
+        eyebrow: "Choose at least 4",
         subheader: "Students must select at least two courses",
         intro:
           "<strong>Major electives allow students to deepen their expertise</strong> in specific areas of interest within their field. These specialized courses build upon the foundation established in core courses, offering advanced knowledge and skills in particular domains of interaction design.",
@@ -215,6 +220,7 @@ export const curriculumData: Category[] = [
       },
       {
         title: "Collaborative & Crossdisciplinary",
+        eyebrow: "Use Remaining Credits",
         subheader: "Students must select at least one course",
         intro:
           "<strong>Collaborative courses connect students with peers from other disciplines</strong> to tackle complex challenges from multiple perspectives. These courses simulate real-world interdisciplinary teamwork and expose students to diverse approaches and methodologies.",
@@ -247,6 +253,7 @@ export const curriculumData: Category[] = [
       },
       {
         title: "Free Electives",
+        eyebrow: "Use Remaining Credits",
         subheader: "Students may select any course",
         intro:
           "<strong>Free electives offer students the opportunity to explore topics beyond their core discipline</strong>, fostering breadth of knowledge and unexpected connections. These courses may be selected from any program at Harbour.Space, allowing students to create a truly personalized educational experience.",
