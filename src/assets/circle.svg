@@ -1,0 +1,26 @@
+<svg width="1300" height="1300" viewBox="0 0 1300 1300" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<circle cx="650" cy="650" r="650" fill="url(#paint0_radial_1006_1591)"/>
+<circle cx="650" cy="650" r="650" fill="url(#pattern0_1006_1591)"/>
+<defs>
+<radialGradient id="paint0_radial_1006_1591" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(650 650) rotate(90) scale(650)">
+<stop stop-color="#FAFAFA"/>
+<stop offset="1" stop-color="white"/>
+</radialGradient>
+<pattern id="pattern0_1006_1591" patternUnits="userSpaceOnUse" viewBox="527 -1427 64 64" width="4.9230769230769234%" height="4.9230769230769234%" patternContentUnits="objectBoundingBox">
+<g clip-path="url(#clip0_1006_1591)">
+<path d="M591 -1427H527V-1363H591V-1427Z" stroke="white"/>
+<path d="M527 -1395H552.6" stroke="white"/>
+<path d="M565.4 -1395H591" stroke="white"/>
+<path d="M559 -1363V-1388.6" stroke="white"/>
+<path d="M559 -1401.4V-1427" stroke="white"/>
+<path d="M527 -1427L555.8 -1398.2" stroke="white"/>
+<path d="M562.2 -1391.8L591 -1363" stroke="white"/>
+<path d="M527 -1363L555.8 -1391.8" stroke="white"/>
+<path d="M562.2 -1398.2L591 -1427" stroke="white"/>
+<path d="M559 -1401.4L565.4 -1395L559 -1388.6L552.6 -1395L559 -1401.4Z" fill="white" stroke="white"/>
+</g>
+</pattern><clipPath id="clip0_1006_1591">
+<rect width="64" height="64" fill="white" transform="translate(527 -1427)"/>
+</clipPath>
+</defs>
+</svg>

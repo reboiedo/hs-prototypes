@@ -4,6 +4,7 @@ import Subcategory from './Subcategory.astro';
 import { Image } from 'astro:assets';
 import coreImage from '../../assets/Core.svg';
 import electivesImage from '../../assets/Electives.svg';
+import circle from '../../assets/circle.svg';
 
 interface Props {
   category: Category;
@@ -15,6 +16,7 @@ const image = category.title === "Core" ? coreImage : electivesImage;
 
 <section class="category-section">
   <div class="container">
+    <Image src={circle} alt="Decorative circle" width={60} class="circle" />
     <div class="category-header">
       <div class="sticky">
         <h2 class="headline-3xl">{category.title}</h2>
@@ -35,10 +37,13 @@ const image = category.title === "Core" ? coreImage : electivesImage;
 <style>
   .category-section {
     padding: 0 var(--space-m-xl);
+    overflow: hidden;
   }
 
   .container {
+
     max-width: 1824px;
+    position: relative;
     display: grid;
     grid-template-columns: 1.3fr 2fr;
     margin: 0 auto;
@@ -51,6 +56,16 @@ const image = category.title === "Core" ? coreImage : electivesImage;
     /* padding: var(--space-xl) 0 var(--space-m) 0; */
     /* color: var(--color-purple-600); */
     /* border-top: 2px solid var(--color-black); */
+  }
+
+  .circle {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -1;
   }
   
   .sticky {
